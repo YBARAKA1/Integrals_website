@@ -3,7 +3,7 @@
  * Outbound mail — Contact Form 7 and theme forms use wp_mail().
  *
  * Recipients:
- *   Contact Us / Service request / Volunteer / Demo AJAX → support@integral.co.ke
+ *   Contact Us / Service request / Volunteer / Demo AJAX → online@integral.co.ke
  *
  * HTML layout matches Integral HMS transactional emails
  * (header #780080, footer #390049 — same as Login Verification).
@@ -56,8 +56,8 @@ function integral_mail_cfg( $key, $default = '' ) {
 }
 
 function integral_mail_recipient() {
-	$to = integral_mail_cfg( 'INTEGRAL_MAIL_TO', 'support@integral.co.ke' );
-	return $to ? $to : 'support@integral.co.ke';
+	$to = integral_mail_cfg( 'INTEGRAL_MAIL_TO', 'online@integral.co.ke' );
+	return $to ? $to : 'online@integral.co.ke';
 }
 
 function integral_mail_cc() {
@@ -197,7 +197,7 @@ function integral_build_branded_email_html(
           <tr>
             <td style="background-color:' . $footer . ';padding:24px 28px;text-align:center;color:#ffffff;font-size:13px;line-height:1.7;">
               <div style="font-weight:700;margin-bottom:8px;">Integral Auto Response</div>
-              <div>Email: support@integral.co.ke</div>
+              <div>Email: online@integral.co.ke</div>
               <div>Mobile: +254 720 730 430</div>
               <div>Url: www.integral.co.ke</div>
               <div style="margin-top:12px;font-size:11px;opacity:0.9;">Email automatically sent from Integral. Do not reply.</div>

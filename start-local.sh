@@ -57,7 +57,7 @@ start_mailhog() {
   # Point WordPress at Mailhog when no production .mail.env exists yet.
   if [[ ! -f "$ROOT/.mail.env" ]]; then
     cat >"$ROOT/.mail.env" <<'EOF'
-INTEGRAL_MAIL_TO=support@integral.co.ke
+INTEGRAL_MAIL_TO=online@integral.co.ke
 INTEGRAL_SMTP_FROM=no-reply@integral.co.ke
 INTEGRAL_SMTP_FROM_NAME=Integral Software
 INTEGRAL_SMTP_HOST=host.docker.internal
