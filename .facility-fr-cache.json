@@ -1,0 +1,38 @@
+{
+  "FID-22-105288-1": {
+    "frCode": "FID-22-105288-1",
+    "fidCode": "105288",
+    "name": "ST. LUKE'S UZIMA HOSPITAL",
+    "facilityType": "",
+    "level": "LEVEL 3B",
+    "ownership": "PRIVATE",
+    "county": "",
+    "subCounty": "",
+    "town": "",
+    "phone": "",
+    "email": "",
+    "licenseStatus": "Reg #016086",
+    "shaStatus": "",
+    "sladeCode": "26067",
+    "uuid": "bd2bf729-eb97-4d90-b099-e193e5af9735",
+    "source": "sha-portal"
+  },
+  "FID-47-108679-9": {
+    "frCode": "FID-47-108679-9",
+    "fidCode": "108679",
+    "name": "ST. SCHOLASTICA UZIMA HOSPITAL",
+    "facilityType": "",
+    "level": "LEVEL 4",
+    "ownership": "FBO",
+    "county": "",
+    "subCounty": "",
+    "town": "",
+    "phone": "",
+    "email": "",
+    "licenseStatus": "Reg #000095",
+    "shaStatus": "",
+    "sladeCode": "22388",
+    "uuid": "7b916f0d-4e76-4c61-945e-3352efdbf2aa",
+    "source": "sha-portal"
+  }
+}

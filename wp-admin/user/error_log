@@ -1,0 +1,18 @@
+[06-Oct-2024 10:27:35 UTC] PHP Warning:  Undefined array key "settings-updated" in /home/wjdvkrvg/public_html/wp-content/plugins/seo-auto-image-tags/admin/class-seo-image-settings.php on line 185
+[06-Oct-2024 10:27:35 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function create_function() in /home/wjdvkrvg/public_html/wp-content/plugins/slider/includes/classes/class-msp-main-widget.php:95
+Stack trace:
+#0 /home/wjdvkrvg/public_html/wp-content/plugins/slider/includes/index.php(6): include_once()
+#1 /home/wjdvkrvg/public_html/wp-content/plugins/slider/public/class-master-slider.php(78): include_once('/home/wjdvkrvg/...')
+#2 /home/wjdvkrvg/public_html/wp-content/plugins/slider/public/class-master-slider.php(59): Master_Slider->includes()
+#3 /home/wjdvkrvg/public_html/wp-content/plugins/slider/public/class-master-slider.php(138): Master_Slider->__construct()
+#4 /home/wjdvkrvg/public_html/wp-content/plugins/slider/public/class-master-slider.php(364): Master_Slider::get_instance()
+#5 /home/wjdvkrvg/public_html/wp-content/plugins/slider/public/class-master-slider.php(365): MSP()
+#6 /home/wjdvkrvg/public_html/wp-content/plugins/slider/masterslider.php(60): require_once('/home/wjdvkrvg/...')
+#7 /home/wjdvkrvg/public_html/wp-settings.php(305): include_once('/home/wjdvkrvg/...')
+#8 /home/wjdvkrvg/public_html/wp-config.php(96): require_once('/home/wjdvkrvg/...')
+#9 /home/wjdvkrvg/public_html/wp-load.php(37): require_once('/home/wjdvkrvg/...')
+#10 /home/wjdvkrvg/public_html/wp-admin/admin.php(31): require_once('/home/wjdvkrvg/...')
+#11 /home/wjdvkrvg/public_html/wp-admin/user/admin.php(12): require_once('/home/wjdvkrvg/...')
+#12 /home/wjdvkrvg/public_html/wp-admin/user/index.php(11): require_once('/home/wjdvkrvg/...')
+#13 {main}
+  thrown in /home/wjdvkrvg/public_html/wp-content/plugins/slider/includes/classes/class-msp-main-widget.php on line 95

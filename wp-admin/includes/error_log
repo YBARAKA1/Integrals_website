@@ -1,0 +1,1 @@
+[30-Jul-2025 18:15:09 UTC] PHP Fatal error:  Call to undefined function load_textdomain() in /home/wjdvkrvg/public_html/wp-admin/includes/admin.php on line 16

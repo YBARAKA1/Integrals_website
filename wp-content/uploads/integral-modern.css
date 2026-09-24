@@ -1,0 +1,804 @@
+/* ==========================================================================
+   Integral Modern UI — tech-forward overlay (loads after ninja.css)
+   Brand: Integral Software Technology
+   ========================================================================== */
+
+:root {
+  --int-ink: #0b1220;
+  --int-slate: #121a2b;
+  --int-slate-2: #1a2438;
+  --int-surface: #f3f5f9;
+  --int-surface-2: #e8ecf3;
+  --int-paper: #ffffff;
+  --int-text: #4a5568;
+  --int-text-soft: #6b778c;
+  --int-heading: #0f172a;
+  --int-accent: #8f2f96;
+  --int-accent-deep: #3d2458;
+  --int-teal: #0f9d8a;
+  --int-teal-soft: #14b8a6;
+  --int-line: rgba(15, 23, 42, 0.08);
+  --int-line-strong: rgba(15, 23, 42, 0.14);
+  --int-glow: rgba(15, 157, 138, 0.18);
+  --int-radius: 12px;
+  --int-radius-sm: 8px;
+  --int-radius-lg: 18px;
+  --int-shadow: 0 10px 40px rgba(11, 18, 32, 0.08);
+  --int-shadow-hover: 0 18px 50px rgba(11, 18, 32, 0.14);
+  --int-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --int-duration: 0.45s;
+  --int-font-display: "Sora", sans-serif;
+  --int-font-body: "Outfit", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* --------------------------------------------------------------------------
+   Typography
+   -------------------------------------------------------------------------- */
+.realfactory-body,
+.realfactory-body .gdlr-core-content-font,
+.realfactory-body input,
+.realfactory-body textarea,
+.realfactory-body button,
+.realfactory-body select,
+.realfactory-body .realfactory-content-font,
+.realfactory-body .gdlr-core-info-font,
+.realfactory-body .realfactory-info-font {
+  font-family: var(--int-font-body) !important;
+  color: var(--int-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.realfactory-body h1,
+.realfactory-body h2,
+.realfactory-body h3,
+.realfactory-body h4,
+.realfactory-body h5,
+.realfactory-body h6,
+.realfactory-body .realfactory-title-font,
+.realfactory-body .gdlr-core-title-font,
+.gdlr-core-title-item .gdlr-core-title-item-title,
+.gdlr-core-title-item .gdlr-core-title-item-title a,
+.realfactory-page-title-wrap .realfactory-page-title {
+  font-family: var(--int-font-display) !important;
+  color: var(--int-heading) !important;
+  letter-spacing: -0.02em;
+  font-weight: 600 !important;
+  line-height: 1.2;
+}
+
+.realfactory-navigation .sf-menu > li > a,
+.realfactory-navigation .sf-vertical > li > a,
+.realfactory-navigation-font {
+  font-family: var(--int-font-body) !important;
+}
+
+.realfactory-body h1:after,
+h5:after {
+  width: 48px !important;
+  height: 3px !important;
+  background: linear-gradient(90deg, var(--int-teal), var(--int-accent)) !important;
+  border-radius: 2px;
+  margin-top: 14px !important;
+}
+
+/* --------------------------------------------------------------------------
+   Base / surfaces
+   -------------------------------------------------------------------------- */
+.realfactory-body-outer-wrapper,
+body.realfactory-full .realfactory-body-wrapper,
+body.realfactory-boxed .realfactory-body-wrapper {
+  background-color: var(--int-paper) !important;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 100% -10%, rgba(15, 157, 138, 0.06), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 0% 20%, rgba(143, 47, 150, 0.05), transparent 45%);
+  background-attachment: fixed;
+}
+
+.realfactory-page-preload {
+  background: var(--int-ink) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Top bar
+   -------------------------------------------------------------------------- */
+.realfactory-top-bar {
+  font-size: 13px !important;
+  letter-spacing: 0.01em;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 0 !important;
+}
+
+.realfactory-top-bar-background {
+  background: linear-gradient(90deg, var(--int-ink), var(--int-slate)) !important;
+  opacity: 1 !important;
+}
+
+.realfactory-top-bar,
+.realfactory-body .realfactory-top-bar a,
+.realfactory-top-bar .realfactory-top-bar-right-social a {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.realfactory-body .realfactory-top-bar a:hover,
+.realfactory-top-bar .realfactory-top-bar-right-social a:hover {
+  color: var(--int-teal-soft) !important;
+}
+
+.realfactory-top-bar .top-icon {
+  color: var(--int-teal-soft);
+  margin-right: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Header / navigation — glass, sticky polish
+   -------------------------------------------------------------------------- */
+.realfactory-header-background,
+.realfactory-sticky-menu-placeholder,
+.realfactory-header-style-boxed.realfactory-fixed-navigation,
+.realfactory-navigation-background {
+  background-color: rgba(255, 255, 255, 0.86) !important;
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  transition: background-color var(--int-duration) var(--int-ease),
+    box-shadow var(--int-duration) var(--int-ease),
+    backdrop-filter var(--int-duration) var(--int-ease);
+}
+
+.realfactory-header-wrap.realfactory-header-style-plain {
+  border-color: transparent !important;
+  box-shadow: 0 1px 0 var(--int-line);
+  transition: box-shadow var(--int-duration) var(--int-ease);
+}
+
+body.int-scrolled .realfactory-header-wrap.realfactory-header-style-plain,
+body.int-scrolled .realfactory-header-background,
+body.int-scrolled .realfactory-navigation-background {
+  box-shadow: 0 8px 30px rgba(11, 18, 32, 0.1);
+}
+
+.realfactory-header-background-transparent .realfactory-header-background {
+  background-color: transparent !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 1 !important;
+}
+
+.realfactory-with-transparent-header .realfactory-navigation-background {
+  background-color: transparent !important;
+}
+
+body.int-scrolled .realfactory-header-background-transparent .realfactory-header-background,
+body.int-scrolled .realfactory-with-transparent-header .realfactory-navigation-background {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.realfactory-logo {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  transition: transform var(--int-duration) var(--int-ease);
+}
+
+.realfactory-logo img {
+  transition: transform 0.35s var(--int-ease), filter 0.35s var(--int-ease);
+}
+
+.realfactory-logo:hover img {
+  transform: scale(1.03);
+}
+
+.realfactory-navigation .sf-menu > li {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+
+.realfactory-navigation .sf-menu > li > a {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 0.01em !important;
+  color: var(--int-heading) !important;
+  padding-bottom: 8px !important;
+  position: relative;
+  transition: color 0.3s var(--int-ease) !important;
+}
+
+.realfactory-navigation .sf-menu > li > a:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--int-teal), var(--int-accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--int-ease);
+  border-radius: 2px;
+}
+
+.realfactory-navigation .sf-menu > li:hover > a,
+.realfactory-navigation .sf-menu > li.current-menu-item > a,
+.realfactory-navigation .sf-menu > li.current-menu-ancestor > a {
+  color: var(--int-accent) !important;
+}
+
+.realfactory-navigation .sf-menu > li:hover > a:after,
+.realfactory-navigation .sf-menu > li.current-menu-item > a:after,
+.realfactory-navigation .sf-menu > li.current-menu-ancestor > a:after {
+  transform: scaleX(1);
+}
+
+.realfactory-navigation .realfactory-navigation-slide-bar {
+  display: none !important;
+}
+
+/* Dropdowns */
+.sf-menu > .realfactory-normal-menu li,
+.sf-menu > .realfactory-mega-menu > .sf-mega,
+.sf-vertical ul.sub-menu li,
+ul.sf-menu > .menu-item-language li {
+  background-color: var(--int-paper) !important;
+  border-radius: var(--int-radius-sm);
+  box-shadow: var(--int-shadow);
+  border: 1px solid var(--int-line);
+  overflow: hidden;
+}
+
+.sf-menu > li > .sub-menu a,
+.sf-menu > .realfactory-mega-menu > .sf-mega a {
+  font-size: 13.5px !important;
+  font-weight: 450;
+  transition: background 0.25s var(--int-ease), color 0.25s var(--int-ease), padding-left 0.25s var(--int-ease) !important;
+}
+
+.sf-menu > li > .sub-menu a:hover,
+.sf-menu > li > .sub-menu .current-menu-item > a,
+.sf-menu > .realfactory-mega-menu > .sf-mega a:hover {
+  background-color: var(--int-surface) !important;
+  color: var(--int-accent) !important;
+  padding-left: 18px !important;
+}
+
+.realfactory-navigation .sf-menu > .realfactory-mega-menu .sf-mega-section-inner > a {
+  background: var(--int-slate) !important;
+  color: #fff !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  transition: background 0.3s var(--int-ease) !important;
+}
+
+.realfactory-navigation .sf-menu > .realfactory-mega-menu .sf-mega-section-inner > a:hover {
+  background-color: var(--int-accent) !important;
+}
+
+/* Header CTA */
+.realfactory-body .realfactory-header-right-button,
+.realfactory-body .realfactory-main-menu-right-button {
+  background: linear-gradient(135deg, var(--int-accent), var(--int-accent-deep)) !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 10px 22px !important;
+  font-weight: 560 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 24px rgba(143, 47, 150, 0.28);
+  transition: transform 0.3s var(--int-ease), box-shadow 0.3s var(--int-ease), filter 0.3s var(--int-ease) !important;
+}
+
+.realfactory-body .realfactory-header-right-button:hover,
+.realfactory-body .realfactory-main-menu-right-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(143, 47, 150, 0.38);
+  filter: brightness(1.05);
+}
+
+/* Mobile header */
+.realfactory-mobile-header {
+  box-shadow: 0 4px 20px rgba(11, 18, 32, 0.06);
+}
+
+.realfactory-mobile-menu .realfactory-mobile-menu-button {
+  border-radius: 8px !important;
+  border-color: var(--int-accent-deep) !important;
+  transition: background 0.3s var(--int-ease), border-color 0.3s var(--int-ease);
+}
+
+.mm-menu {
+  background: var(--int-ink) !important;
+}
+
+.mm-navbar .mm-title,
+ul.mm-listview li a {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: var(--int-font-body) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Page titles
+   -------------------------------------------------------------------------- */
+.realfactory-page-title-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.realfactory-page-title-wrap .realfactory-page-title-overlay {
+  background: linear-gradient(135deg, rgba(11, 18, 32, 0.82), rgba(61, 36, 88, 0.72)) !important;
+  opacity: 1 !important;
+}
+
+.realfactory-page-title-wrap .realfactory-page-title {
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+.realfactory-page-title-wrap .realfactory-page-caption {
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-family: var(--int-font-body) !important;
+}
+
+.realfactory-body .realfactory-breadcrumbs {
+  background: transparent !important;
+  border-bottom: 1px solid var(--int-line);
+}
+
+.realfactory-body .realfactory-breadcrumbs span,
+.realfactory-body .realfactory-breadcrumbs a:hover span {
+  color: var(--int-accent) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — kill dated arrow sprites, modern controls
+   -------------------------------------------------------------------------- */
+.gdlr-core-body .gdlr-core-button,
+.gdlr-core-body .gdlr-core-load-more,
+.ninjabt,
+.ninjabtinq a,
+.gdlr-core-column-service-item .gdlr-core-column-service-read-more,
+input[type="submit"],
+button[type="submit"] {
+  background-image: none !important;
+  border-radius: 999px !important;
+  font-family: var(--int-font-body) !important;
+  font-weight: 560 !important;
+  letter-spacing: 0.02em;
+  text-transform: none !important;
+  transition: transform 0.3s var(--int-ease), box-shadow 0.3s var(--int-ease),
+    background 0.3s var(--int-ease), color 0.3s var(--int-ease), border-color 0.3s var(--int-ease) !important;
+}
+
+.gdlr-core-body .gdlr-core-button,
+.gdlr-core-body .gdlr-core-button-color,
+.ninjabt {
+  background: linear-gradient(135deg, var(--int-accent) 0%, var(--int-accent-deep) 100%) !important;
+  background-color: var(--int-accent) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  padding: 12px 28px !important;
+  box-shadow: 0 10px 28px rgba(143, 47, 150, 0.28);
+}
+
+.gdlr-core-body .gdlr-core-button:hover,
+.gdlr-core-body .gdlr-core-load-more:hover,
+.ninjabt:hover {
+  background: linear-gradient(135deg, var(--int-teal) 0%, #0b7f70 100%) !important;
+  background-color: var(--int-teal) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(15, 157, 138, 0.32);
+  color: #fff !important;
+}
+
+.gdlr-core-column-service-item .gdlr-core-column-service-read-more {
+  color: var(--int-accent-deep) !important;
+  border: 1px solid var(--int-line-strong) !important;
+  background: var(--int-paper) !important;
+  padding: 8px 22px !important;
+  border-radius: 999px !important;
+}
+
+.gdlr-core-column-service-item .gdlr-core-column-service-read-more:hover {
+  color: #fff !important;
+  border-color: var(--int-accent) !important;
+  background: var(--int-accent) !important;
+}
+
+.ninjabtinq a {
+  background: linear-gradient(135deg, var(--int-accent-deep), var(--int-accent)) !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  padding: 12px 18px !important;
+}
+
+.ninjabtinq a:hover {
+  background: linear-gradient(135deg, var(--int-teal), #0b7f70) !important;
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Section titles & content blocks
+   -------------------------------------------------------------------------- */
+.gdlr-core-title-item .gdlr-core-title-item-title,
+.gdlr-core-title-item .gdlr-core-title-item-title a {
+  color: var(--int-heading) !important;
+  font-weight: 600 !important;
+}
+
+.gdlr-core-title-item .gdlr-core-title-item-caption {
+  color: var(--int-text-soft) !important;
+  font-size: 1.05em;
+}
+
+.gdlr-core-pbf-wrapper {
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Service / feature cards
+   -------------------------------------------------------------------------- */
+.gdlr-core-column-service-item,
+.gdlr-core-image-frame-item,
+.gdlr-core-blog-grid,
+.gdlr-core-blog-grid-with-frame .gdlr-core-blog-grid-frame,
+.ninjaborder {
+  transition: transform var(--int-duration) var(--int-ease),
+    box-shadow var(--int-duration) var(--int-ease),
+    border-color var(--int-duration) var(--int-ease) !important;
+}
+
+.gdlr-core-column-service-item {
+  border-radius: var(--int-radius-lg);
+  padding: 8px;
+}
+
+.gdlr-core-column-service-item:hover {
+  transform: translateY(-6px);
+}
+
+.gdlr-core-column-service-item .gdlr-core-icon-style-round i {
+  background: linear-gradient(145deg, var(--int-surface), #fff) !important;
+  border: 1px solid var(--int-line) !important;
+  color: var(--int-accent) !important;
+  box-shadow: 0 8px 24px rgba(11, 18, 32, 0.06);
+  transition: transform 0.4s var(--int-ease), box-shadow 0.4s var(--int-ease), color 0.3s ease !important;
+}
+
+.gdlr-core-column-service-item:hover .gdlr-core-icon-style-round i {
+  transform: scale(1.08) rotate(-4deg);
+  color: var(--int-teal) !important;
+  box-shadow: 0 12px 28px var(--int-glow);
+}
+
+.gdlr-core-column-service-item .gdlr-core-column-service-title {
+  color: var(--int-heading) !important;
+  font-family: var(--int-font-display) !important;
+  font-weight: 600 !important;
+}
+
+.whiteicons {
+  color: var(--int-accent) !important;
+  transition: transform 0.4s var(--int-ease), color 0.3s ease !important;
+}
+
+.gdlr-core-column-service-item:hover .whiteicons {
+  transform: translateY(-4px);
+  color: var(--int-teal) !important;
+}
+
+.ninjaborder h4 {
+  font-family: var(--int-font-display) !important;
+  font-weight: 560 !important;
+}
+
+/* Image frames / portfolio */
+.gdlr-core-image-frame-item .gdlr-core-image-frame-wrap,
+.gdlr-core-portfolio-thumbnail,
+.gdlr-core-blog-thumbnail {
+  border-radius: var(--int-radius) !important;
+  overflow: hidden;
+  box-shadow: var(--int-shadow);
+  transition: transform var(--int-duration) var(--int-ease), box-shadow var(--int-duration) var(--int-ease);
+}
+
+.gdlr-core-image-frame-item:hover .gdlr-core-image-frame-wrap,
+.gdlr-core-portfolio-thumbnail:hover,
+.gdlr-core-blog-grid:hover .gdlr-core-blog-thumbnail {
+  transform: translateY(-4px);
+  box-shadow: var(--int-shadow-hover);
+}
+
+.gdlr-core-image-frame-item img,
+.gdlr-core-portfolio-thumbnail img,
+.gdlr-core-blog-thumbnail img {
+  transition: transform 0.7s var(--int-ease) !important;
+}
+
+.gdlr-core-image-frame-item:hover img,
+.gdlr-core-portfolio-thumbnail:hover img,
+.gdlr-core-blog-grid:hover .gdlr-core-blog-thumbnail img {
+  transform: scale(1.05);
+}
+
+/* Blog cards */
+.gdlr-core-blog-grid .gdlr-core-blog-title,
+.gdlr-core-blog-grid .gdlr-core-blog-title a {
+  font-family: var(--int-font-display) !important;
+  font-weight: 600 !important;
+  color: var(--int-heading) !important;
+  transition: color 0.3s ease !important;
+}
+
+.gdlr-core-blog-grid:hover .gdlr-core-blog-title a {
+  color: var(--int-accent) !important;
+}
+
+.gdlr-core-excerpt-read-more {
+  color: var(--int-accent) !important;
+  transition: color 0.3s ease, letter-spacing 0.3s ease !important;
+}
+
+.gdlr-core-excerpt-read-more:hover {
+  color: var(--int-teal) !important;
+  letter-spacing: 0.04em;
+}
+
+.gdlr-core-excerpt-read-more i {
+  color: var(--int-teal) !important;
+  transition: transform 0.3s var(--int-ease);
+}
+
+.gdlr-core-excerpt-read-more:hover i {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+.realfactory-body input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+.realfactory-body textarea,
+.realfactory-body select,
+.wpcf7 input:not([type="submit"]),
+.wpcf7 textarea {
+  border: 1px solid var(--int-line-strong) !important;
+  border-radius: var(--int-radius-sm) !important;
+  background: var(--int-paper) !important;
+  padding: 12px 16px !important;
+  transition: border-color 0.3s var(--int-ease), box-shadow 0.3s var(--int-ease) !important;
+  font-family: var(--int-font-body) !important;
+}
+
+.realfactory-body input:focus,
+.realfactory-body textarea:focus,
+.realfactory-body select:focus,
+.wpcf7 input:focus,
+.wpcf7 textarea:focus {
+  border-color: var(--int-teal) !important;
+  box-shadow: 0 0 0 3px var(--int-glow) !important;
+  outline: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Footer — dark tech panel (replaces magenta block)
+   -------------------------------------------------------------------------- */
+.realfactory-footer-wrapper {
+  background:
+    radial-gradient(ellipse 70% 80% at 10% 0%, rgba(15, 157, 138, 0.12), transparent 50%),
+    radial-gradient(ellipse 50% 60% at 90% 100%, rgba(143, 47, 150, 0.15), transparent 45%),
+    linear-gradient(180deg, var(--int-ink) 0%, var(--int-slate) 100%) !important;
+  padding-top: 72px !important;
+  padding-bottom: 48px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.realfactory-footer-wrapper,
+.realfactory-footer-wrapper .fa,
+.realfactory-footer-wrapper * {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.realfactory-footer-wrapper,
+.realfactory-footer-wrapper .realfactory-widget-title {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.realfactory-footer-wrapper .realfactory-widget-title {
+  font-family: var(--int-font-display) !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.realfactory-footer-wrapper .realfactory-widget-title:after {
+  background: linear-gradient(90deg, var(--int-teal), var(--int-accent)) !important;
+  width: 36px !important;
+  height: 2px !important;
+}
+
+.realfactory-footer-wrapper a {
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: color 0.25s ease, transform 0.25s ease !important;
+}
+
+.realfactory-footer-wrapper a:hover {
+  color: var(--int-teal-soft) !important;
+}
+
+.realfactory-footer-wrapper .widget_nav_menu ul li:before {
+  color: var(--int-teal-soft) !important;
+}
+
+.realfactory-copyright-wrapper {
+  background: #070b14 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.realfactory-copyright-wrapper,
+.realfactory-copyright-text {
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 13px;
+}
+
+.realfactory-footer-back-to-top-button {
+  background: linear-gradient(135deg, var(--int-accent), var(--int-accent-deep)) !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(143, 47, 150, 0.35);
+  transition: transform 0.3s var(--int-ease), box-shadow 0.3s var(--int-ease) !important;
+}
+
+.realfactory-footer-back-to-top-button:hover,
+.realfactory-footer-back-to-top-button.realfactory-scrolled:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 157, 138, 0.4);
+  background: linear-gradient(135deg, var(--int-teal), #0b7f70) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Master Slider / hero polish
+   -------------------------------------------------------------------------- */
+.master-slider-parent,
+.ms-slide {
+  overflow: hidden;
+}
+
+.ms-layer {
+  font-family: var(--int-font-display) !important;
+}
+
+.ms-nav-next,
+.ms-nav-prev,
+.ms-bullet {
+  transition: transform 0.3s var(--int-ease), opacity 0.3s ease !important;
+}
+
+.ms-nav-next:hover,
+.ms-nav-prev:hover {
+  transform: scale(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   Dark / CTA skins — align to new palette
+   -------------------------------------------------------------------------- */
+.gdlr-core-page-builder-body [data-skin="Dark"] a:hover,
+.gdlr-core-page-builder-body [data-skin="Dark"] .gdlr-core-skin-link:hover {
+  color: var(--int-teal-soft) !important;
+}
+
+.gdlr-core-page-builder-body [data-skin="Call to action"] .gdlr-core-button,
+.gdlr-core-page-builder-body [data-skin="Call to action"] .gdlr-core-button-color {
+  background: #fff !important;
+  color: var(--int-accent-deep) !important;
+  border-radius: 999px !important;
+}
+
+.gdlr-core-page-builder-body [data-skin="Call to action"] .gdlr-core-button:hover {
+  background: var(--int-teal) !important;
+  color: #fff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal system
+   -------------------------------------------------------------------------- */
+.int-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--int-ease), transform 0.7s var(--int-ease);
+  will-change: opacity, transform;
+}
+
+.int-reveal.int-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.int-reveal-delay-1 { transition-delay: 0.08s; }
+.int-reveal-delay-2 { transition-delay: 0.16s; }
+.int-reveal-delay-3 { transition-delay: 0.24s; }
+.int-reveal-delay-4 { transition-delay: 0.32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .int-reveal,
+  .gdlr-core-column-service-item,
+  .gdlr-core-image-frame-item img,
+  .gdlr-core-body .gdlr-core-button,
+  .realfactory-navigation .sf-menu > li > a:after {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Misc polish
+   -------------------------------------------------------------------------- */
+.gdlr-core-accordion-style-box-icon .gdlr-core-accordion-item-title {
+  border-radius: var(--int-radius-sm);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.gdlr-core-tab-item .gdlr-core-tab-item-title {
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+table tr th {
+  background: var(--int-slate) !important;
+  color: #fff !important;
+  font-family: var(--int-font-body) !important;
+  font-weight: 560;
+}
+
+table tr:nth-child(odd),
+table tr:nth-child(even) {
+  transition: background 0.25s ease;
+}
+
+table tr:hover td {
+  background: rgba(15, 157, 138, 0.06) !important;
+}
+
+.warning {
+  border-radius: var(--int-radius-sm) !important;
+  border-left: 3px solid #ad0e0e !important;
+}
+
+/* Soft section separators */
+.gdlr-core-pbf-wrapper[style*="background-color:#f"],
+.gdlr-core-pbf-wrapper[style*="background-color: #f"],
+.gdlr-core-pbf-wrapper[style*="background-color:#e"],
+.gdlr-core-pbf-wrapper[style*="background:#f"] {
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 999px) {
+  .realfactory-navigation .sf-menu > li {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .realfactory-body h1 { font-size: 36px !important; }
+  .realfactory-body h2 { font-size: 30px !important; }
+}
+
+@media (max-width: 767px) {
+  .realfactory-footer-wrapper {
+    padding-top: 48px !important;
+  }
+
+  .gdlr-core-body .gdlr-core-button,
+  .ninjabt {
+    width: auto;
+    display: inline-block;
+  }
+}

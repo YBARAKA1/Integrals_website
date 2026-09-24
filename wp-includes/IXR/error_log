@@ -1,0 +1,4 @@
+[19-Jun-2026 07:12:36 UTC] PHP Fatal error:  Class 'IXR_Client' not found in /home/wjdvkrvg/public_html/wp-includes/IXR/class-IXR-clientmulticall.php on line 9
+[19-Jun-2026 07:12:49 UTC] PHP Fatal error:  Class 'IXR_Server' not found in /home/wjdvkrvg/public_html/wp-includes/IXR/class-IXR-introspectionserver.php on line 10
+[09-Aug-2026 05:37:48 UTC] PHP Fatal error:  Class 'IXR_Client' not found in /home/wjdvkrvg/public_html/wp-includes/IXR/class-IXR-clientmulticall.php on line 9
+[09-Aug-2026 05:37:59 UTC] PHP Fatal error:  Class 'IXR_Server' not found in /home/wjdvkrvg/public_html/wp-includes/IXR/class-IXR-introspectionserver.php on line 10
