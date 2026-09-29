@@ -1,0 +1,59 @@
+# Integral SoftCo — WordPress (PHP 7.4) + MySQL behind host Caddy
+# Bound to localhost only; Caddy reverse-proxies public 80/443.
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: integral-mysql
+    restart: unless-stopped
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - integral_mysql_data:/var/lib/mysql
+    networks:
+      - integral-wp
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: integral-wp74:latest
+    container_name: integral-wordpress
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      INTEGRAL_WP_HOME: https://${DOMAIN}
+      INTEGRAL_WP_SITEURL: https://${DOMAIN}
+      INTEGRAL_FHIR_API_URL: http://host.docker.internal:18787/fhir
+      INTEGRAL_SHA_PORTAL_PROXY: http://host.docker.internal:18787/sha/facilities
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ${SITE_ROOT}:/var/www/html
+    networks:
+      - integral-wp
+
+networks:
+  integral-wp:
+    name: integral-wp
+
+volumes:
+  integral_mysql_data:
+    name: integral_mysql_data

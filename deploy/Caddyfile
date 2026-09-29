@@ -1,0 +1,30 @@
+# Caddy → WordPress (Apache in Docker on 127.0.0.1:8080)
+# Automatic HTTPS via Let's Encrypt (HTTP-01 on :80).
+
+{$DOMAIN}, www.{$DOMAIN} {
+	encode gzip zstd
+
+	# Redirect www → apex
+	@www host www.{$DOMAIN}
+	redir @www https://{$DOMAIN}{uri} permanent
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	reverse_proxy 127.0.0.1:8080 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+
+	log {
+		output file /var/log/caddy/integral.co.ke.access.log
+		format console
+	}
+}

@@ -1,0 +1,19 @@
+[Unit]
+Description=Integral facility FHIR / SHA portal proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=__SITE_ROOT__
+EnvironmentFile=-__SITE_ROOT__/.sha-hie.env
+ExecStart=/usr/bin/python3 __SITE_ROOT__/facility-fhir-proxy.py
+Restart=on-failure
+RestartSec=3
+StandardOutput=append:__SITE_ROOT__/.facility-fhir-proxy.log
+StandardError=append:__SITE_ROOT__/.facility-fhir-proxy.log
+
+[Install]
+WantedBy=multi-user.target

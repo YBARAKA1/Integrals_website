@@ -1,0 +1,19 @@
+[Unit]
+Description=Integral SMTP relay (WordPress → mail.integral.co.ke)
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=__SITE_ROOT__/.mail.env
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=__SITE_ROOT__
+ExecStart=/usr/bin/python3 __SITE_ROOT__/smtp-relay.py --port 2525
+Restart=on-failure
+RestartSec=3
+StandardOutput=append:__SITE_ROOT__/.smtp-relay.log
+StandardError=append:__SITE_ROOT__/.smtp-relay.log
+
+[Install]
+WantedBy=multi-user.target

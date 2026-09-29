@@ -610,7 +610,7 @@ html.int-theme-light .int-theme-toggle__icon--moon {
 @media (min-width: 960px) {
   .int-hero__inner {
     grid-template-columns: 1.05fr 1fr;
-    margin-top: -400px;
+    margin-top: 0;
     align-items: center;
     gap: 2.25rem;
   }

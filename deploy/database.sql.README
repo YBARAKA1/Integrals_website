@@ -1,0 +1,14 @@
+Place your WordPress MySQL dump here as:
+
+  deploy/database.sql
+
+Then run:
+
+  sudo ./install
+
+The installer imports it into MySQL and rewrites site URLs to https://integral.co.ke
+(or whatever DOMAIN you pass).
+
+Export example from an existing host:
+
+  mysqldump -uUSER -p DBNAME > deploy/database.sql

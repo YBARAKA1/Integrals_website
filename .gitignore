@@ -2,3 +2,9 @@
 .sha-hie.env
 .smtp-relay.log
 .smtp-relay.pid
+.facility-fhir-proxy.log
+.facility-fhir-proxy.pid
+deploy/.env
+deploy/database.sql
+wp-config.php.pre-install.bak
+
