@@ -27,13 +27,14 @@ $integrations = integral_hmis_integrations();
 		</div>
 		<div class="int-module-grid">
 			<?php foreach ( $modules as $mod ) : ?>
+				<?php if ( 'integrations' === $mod['id'] || ! empty( $mod['kind'] ) && 'cards' === $mod['kind'] ) { continue; } ?>
 				<article class="int-module-card int-reveal" id="mod-<?php echo esc_attr( $mod['id'] ); ?>">
 					<span class="int-module-card__id"><?php echo esc_html( strtoupper( $mod['id'] ) ); ?></span>
 					<h3><?php echo esc_html( $mod['title'] ); ?></h3>
 					<p><?php echo esc_html( $mod['blurb'] ); ?></p>
 					<ul class="int-module-card__list">
 						<?php foreach ( $mod['panel'] as $item ) : ?>
-							<li><?php echo esc_html( $item ); ?></li>
+							<li><?php echo esc_html( is_array( $item ) ? ( isset( $item['name'] ) ? $item['name'] : '' ) : $item ); ?></li>
 						<?php endforeach; ?>
 					</ul>
 				</article>
@@ -64,23 +65,34 @@ $integrations = integral_hmis_integrations();
 	<div class="int-container">
 		<div class="int-facility int-reveal">
 			<div class="int-facility__copy">
-				<div class="int-eyebrow">Facility level</div>
+				<div class="int-eyebrow">Facility Lookup</div>
 				<h2>Search by FR code or registration</h2>
-				<p>Live SHA / DHA facility registry—look up by FR code (FID-…) or CoC / KMPDC registration number.</p>
+				<p>Look up your facility using your FR Code, FID, or Registration Number. If you don’t have these details, click Continue to proceed.</p>
 			</div>
-			<form class="int-facility__form" data-facility-form>
-				<label for="fr-code-soft">Facility identifier</label>
-				<div class="int-facility__row">
-					<input id="fr-code-soft" name="code" type="text" placeholder="e.g. FID-12-345678-9 or 012345" required>
-					<select name="type" aria-label="Identifier type">
-						<option value="fr-code" selected>FR Code (Facility Registry Code)</option>
-						<option value="fid">FID (Facility ID)</option>
-						<option value="registration-number">Registration Number</option>
-						<option value="auto">Auto-detect</option>
-					</select>
-					<button class="int-btn int-btn--primary" type="submit">Lookup</button>
+			<form class="int-facility__form int-demo__lookup" data-facility-form>
+				<input type="hidden" name="type" value="auto">
+
+				<label class="int-facility__code-label" for="fr-code-soft">Identifier Value</label>
+				<input id="fr-code-soft" name="code" type="text" placeholder="FID-xx-xxxxxx-x" autocomplete="off" required>
+				<p class="int-facility__hint" data-facility-status>Lookup by FR Code, FID, Registration Number</p>
+
+				<div class="int-demo__nav int-demo__nav--lookup">
+					<button class="int-btn int-btn--lookup int-facility__search" type="submit">
+						<svg class="int-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+							<path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+						<span class="int-btn__spinner" aria-hidden="true"></span>
+						<span>Lookup</span>
+					</button>
+					<button type="button" class="int-btn int-btn--continue" data-facility-continue>
+						<span>Continue</span>
+						<svg class="int-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</button>
 				</div>
-				<p class="int-facility__hint" data-facility-status>Same SHA / Afyalink registry search as Integral HMIS institution setup</p>
+
 				<div class="int-facility__result" data-facility-result hidden></div>
 			</form>
 		</div>

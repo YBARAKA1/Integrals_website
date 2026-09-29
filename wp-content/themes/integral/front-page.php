@@ -15,10 +15,9 @@ $first        = $modules[0];
 	<div class="int-hero__inner">
 		<div class="int-hero__copy">
 			<div class="int-hero__brand">Integral<em> HMIS</em></div>
-			<h1>The hospital system that runs the whole facility.</h1>
-			<p>Patient care, billing, SHA claims, procurement, HR, ambulance, pharmacy—and the national integrations that make it real.</p>
+			<h1>Hospital Management Information System</h1>
+			<p>An integrated hospital management platform that connects clinical, financial, and administrative operations in one system—giving your hospital the control, visibility, and efficiency to deliver and extend health services.</p>
 			<div class="int-hero__actions">
-				<button type="button" class="int-btn int-btn--primary" data-demo-open>Request a demo</button>
 				<a class="int-btn int-btn--ghost" href="#presence">Our footprint</a>
 			</div>
 		</div>
@@ -40,6 +39,7 @@ $first        = $modules[0];
 							data-module="<?php echo esc_attr( $mod['id'] ); ?>"
 							data-title="<?php echo esc_attr( $mod['title'] ); ?>"
 							data-blurb="<?php echo esc_attr( $mod['blurb'] ); ?>"
+							data-kind="<?php echo esc_attr( ! empty( $mod['kind'] ) ? $mod['kind'] : 'kpis' ); ?>"
 							data-panel="<?php echo esc_attr( wp_json_encode( $mod['panel'] ) ); ?>"
 						>
 							<span><?php echo esc_html( $mod['title'] ); ?></span>
@@ -59,10 +59,6 @@ $first        = $modules[0];
 							</div>
 						<?php endforeach; ?>
 					</div>
-					<div class="int-console__stream" aria-hidden="true">
-						<span></span><span></span><span></span><span></span>
-					</div>
-					<button type="button" class="int-btn int-btn--primary int-btn--sm" data-demo-open>Demo this module</button>
 				</div>
 			</div>
 		</div>
@@ -84,11 +80,12 @@ $first        = $modules[0];
 	<div class="int-container">
 		<div class="int-section__head int-reveal">
 			<div class="int-eyebrow">Full hospital stack</div>
-			<h2>Not a module brochure. An operating system.</h2>
+			<h2>Not just modules. Your hospital operating system.</h2>
 			<p>Click through the console above—or jump into any department Integral already covers.</p>
 		</div>
 		<div class="int-module-grid">
 			<?php foreach ( $modules as $mod ) : ?>
+				<?php if ( 'integrations' === $mod['id'] ) { continue; } ?>
 				<button type="button" class="int-module-card int-reveal" data-jump-module="<?php echo esc_attr( $mod['id'] ); ?>">
 					<span class="int-module-card__id"><?php echo esc_html( strtoupper( $mod['id'] ) ); ?></span>
 					<h3><?php echo esc_html( $mod['title'] ); ?></h3>
@@ -121,6 +118,22 @@ $first        = $modules[0];
 	</div>
 </section>
 
+<section class="int-section int-certs" id="dha-certification">
+	<div class="int-container">
+		<div class="int-section__head int-reveal">
+			<div class="int-eyebrow">Credentials</div>
+			<h2>Certified for digital health. Registered for data protection.</h2>
+			<p>Integral holds Kenya Digital Health Agency certification and is registered with the Office of the Data Protection Commissioner as a Data Processor.</p>
+		</div>
+		<?php
+		$certs = integral_certifications();
+		foreach ( $certs as $i => $cert ) {
+			integral_render_certification( $cert, ( 1 === ( $i % 2 ) ) );
+		}
+		?>
+	</div>
+</section>
+
 <section class="int-section int-presence" id="presence">
 	<div class="int-presence__glow" aria-hidden="true"></div>
 	<div class="int-container">
@@ -135,9 +148,9 @@ $first        = $modules[0];
 				<span class="int-metric__index" aria-hidden="true">01</span>
 				<div class="int-metric__orb" aria-hidden="true"></div>
 				<div class="int-metric__value">
-					<span data-count-to="200" data-count-suffix="+">0</span>
+					<span data-count-to="300" data-count-suffix="+">0</span>
 				</div>
-				<h3 class="int-metric__label">Hospitals worldwide</h3>
+				<h3 class="int-metric__label">Healthcare facilities</h3>
 				<p class="int-metric__detail">Facilities running Integral across clinical, billing, and national scheme workflows.</p>
 				<span class="int-metric__rail" aria-hidden="true"></span>
 			</article>
@@ -154,7 +167,7 @@ $first        = $modules[0];
 				<ul class="int-metric__chips" aria-label="Countries">
 					<li style="--i:0">Kenya</li>
 					<li style="--i:1">Malawi</li>
-					<li style="--i:2">Tanzania</li>
+					<li style="--i:2">Zambia</li>
 					<li style="--i:3">Uganda</li>
 					<li style="--i:4">Jamaica</li>
 				</ul>
@@ -165,7 +178,7 @@ $first        = $modules[0];
 				<span class="int-metric__index" aria-hidden="true">03</span>
 				<div class="int-metric__orb" aria-hidden="true"></div>
 				<div class="int-metric__value">
-					<span data-count-to="32" data-count-suffix="+">0</span>
+					<span data-count-to="38">0</span>
 				</div>
 				<h3 class="int-metric__label">Kenyan counties</h3>
 				<p class="int-metric__detail">County and private facilities covered nationwide—from referral hospitals to primary care.</p>

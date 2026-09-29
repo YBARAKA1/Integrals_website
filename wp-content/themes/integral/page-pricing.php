@@ -30,7 +30,7 @@ get_header();
 			<h2>We’ll map your facility to the right tier.</h2>
 			<p>Share bed count, modules, and SHA needs—we’ll recommend Cloud or On Premise with a scoped demo.</p>
 			<div class="int-cta__actions">
-				<button type="button" class="int-btn int-btn--primary" data-demo-open>Talk pricing</button>
+				<button type="button" class="int-btn int-btn--primary" data-demo-open>Get a Quote</button>
 				<a class="int-btn int-btn--ghost" href="<?php echo esc_url( home_url( '/softwares/' ) ); ?>">See HMIS modules</a>
 			</div>
 		</div>

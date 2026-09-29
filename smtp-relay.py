@@ -49,30 +49,52 @@ def forward(cfg: dict, mailfrom: str, rcpttos: list, payload: bytes) -> None:
     if host in ("host.docker.internal", "integral-mailhog", "127.0.0.1", "localhost", ""):
         host, port, secure = "mail.integral.co.ke", 465, "ssl"
 
-    ctx = ssl.create_default_context()
-    if secure == "ssl" or port == 465:
-        client = smtplib.SMTP_SSL(host, port, timeout=45, context=ctx)
-    else:
-        client = smtplib.SMTP(host, port, timeout=45)
-        client.ehlo()
-        client.starttls(context=ctx)
-        client.ehlo()
+    rcpts = list(rcpttos)
+    if not rcpts:
+        msg = email.message_from_bytes(payload)
+        for hdr in ("To", "Cc", "Bcc"):
+            for _, addr in email.utils.getaddresses(msg.get_all(hdr, [])):
+                if addr:
+                    rcpts.append(addr)
+    if not rcpts:
+        raise RuntimeError("no recipients")
+    sender = mailfrom or cfg.get("INTEGRAL_SMTP_FROM") or user
 
-    with client:
-        if user:
-            client.login(user, password)
-        rcpts = list(rcpttos)
-        if not rcpts:
-            msg = email.message_from_bytes(payload)
-            for hdr in ("To", "Cc", "Bcc"):
-                for _, addr in email.utils.getaddresses(msg.get_all(hdr, [])):
-                    if addr:
-                        rcpts.append(addr)
-        if not rcpts:
-            raise RuntimeError("no recipients")
-        sender = mailfrom or cfg.get("INTEGRAL_SMTP_FROM") or user
-        client.sendmail(sender, rcpts, payload)
+    def send_via(target_host: str, target_port: int, target_secure: str, auth_user: str = "", auth_pass: str = "", timeout: int = 20) -> None:
+        ctx = ssl.create_default_context()
+        if target_secure == "ssl" or target_port == 465:
+            client = smtplib.SMTP_SSL(target_host, target_port, timeout=timeout, context=ctx)
+        else:
+            client = smtplib.SMTP(target_host, target_port, timeout=timeout)
+            if target_secure == "tls":
+                client.ehlo()
+                client.starttls(context=ctx)
+                client.ehlo()
+        with client:
+            if auth_user:
+                client.login(auth_user, auth_pass)
+            client.sendmail(sender, rcpts, payload)
+
+    try:
+        send_via(host, port, secure, user, password, timeout=8)
         print(f"[smtp-relay] forwarded to {', '.join(rcpts)} via {host}:{port}", flush=True)
+        return
+    except Exception as upstream_exc:
+        print(f"[smtp-relay] upstream failed ({host}:{port}): {upstream_exc}", flush=True)
+
+    # Local fallback so WordPress Submit still succeeds while mail host is down.
+    fallback_host = cfg.get("INTEGRAL_SMTP_FALLBACK_HOST") or "127.0.0.1"
+    fallback_port = int(cfg.get("INTEGRAL_SMTP_FALLBACK_PORT") or "1025")
+    try:
+        send_via(fallback_host, fallback_port, "", "", "", timeout=10)
+        print(
+            f"[smtp-relay] FALLBACK to MailHog {fallback_host}:{fallback_port} → {', '.join(rcpts)}",
+            flush=True,
+        )
+    except Exception as fallback_exc:
+        raise RuntimeError(
+            f"upstream failed ({upstream_exc}); fallback also failed ({fallback_exc})"
+        ) from fallback_exc
 
 
 def handle_client(conn: socket.socket, addr, cfg: dict) -> None:

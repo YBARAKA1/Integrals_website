@@ -1,0 +1,311 @@
+INTEGRAL SOFTWARE TECHNOLOGY LTD
+SOFTWARE LICENCE, IMPLEMENTATION AND SUPPORT AGREEMENT
+
+IMPORTANT: Commercial template for Integral Software Technology Ltd. Have Kenyan counsel review before use with clients.
+
+================================================================================
+CONFIDENTIALITY NOTICE
+================================================================================
+
+This Agreement and related quotations, schedules, pricing, and technical materials are confidential.
+They may be used only to evaluate, negotiate, and perform the engagement between the Parties and
+may not be disclosed to third parties without prior written consent, except to professional advisers
+under confidentiality obligations or as required by law.
+
+================================================================================
+PARTIES
+================================================================================
+
+This Agreement is entered into as of ________________ (“Effective Date”)
+
+BETWEEN
+
+Integral Software Technology Ltd
+Even Business Park, Airport Road, Nairobi, Kenya
+P.O. Box 19528–00100, Nairobi
+Tel: +254 720 730 430 / +254 20 252 4342
+Email: info@integral.co.ke | Web: www.integral.co.ke
+(“Integral” / “Provider”)
+
+AND
+
+Client legal name: _________________________________________________________________
+Address: _________________________________________________________________________
+Email / Tel: ______________________________________________________________________
+Facility / site(s): _________________________________________________________________
+(“Client”)
+
+Each a “Party” and together the “Parties”.
+
+================================================================================
+1. DEFINITIONS
+================================================================================
+
+1.1 “Software” / “HMIS” means the Integral Hospital Management Information System and licensed modules.
+1.2 “Services” means implementation, configuration, training, integration, commissioning, and support.
+1.3 “Quotation” means Integral’s written quotation / investment summary accepted by the Client
+    (Ref: __________ dated __________).
+1.4 “Facility” means the Client healthcare site(s) named in Schedule A.
+1.5 “Personal Data” has the meaning under the Data Protection Act, 2019 (Kenya).
+1.6 “Go-Live” means production use of the agreed scope confirmed in writing by the Parties.
+1.7 “Change Request” means a written request to alter agreed scope, timeline, integrations, or deliverables.
+
+================================================================================
+2. SCOPE OF LICENCE AND SERVICES
+================================================================================
+
+2.1 Licence. Integral grants the Client a non-exclusive, non-transferable right to use the Software at the
+    Facility for internal healthcare operations, subject to this Agreement and full payment of fees.
+
+2.2 Services. Integral shall supply, install/configure, train, and commission the Software according to the
+    Quotation / Schedule, which may include:
+    (a) base HMIS licence and agreed modules (clinical, billing, pharmacy/stores, HR/payroll, finance, etc.);
+    (b) national / third-party integrations (e.g. SHA, DHA-related rails, Smart, M-Pesa, fiscalization);
+    (c) implementation, parameterization, and agreed customizations;
+    (d) role-based user and administrator training; and
+    (e) go-live support and post-go-live stabilization as specified.
+
+2.3 Out of scope. Items not listed in the Quotation are excluded, including hardware supply (unless quoted),
+    structured cabling, internet service, third-party licence fees payable to regulators/vendors, and major
+    custom development unless approved under Change Control.
+
+================================================================================
+3. IMPLEMENTATION METHODOLOGY AND TIMELINE
+================================================================================
+
+3.1 Indicative phases (refined per project plan):
+    (1) Requirements confirmation, workflow review and scoping / SRS sign-off;
+    (2) Environment setup and foundational configuration;
+    (3) Master data setup (services, charges, stock, users, payer mappings);
+    (4) Workflow configuration and approved integrations;
+    (5) Testing, UAT and issue closure / agreed workarounds;
+    (6) Role-based training and go-live readiness;
+    (7) Go-live, stabilization and handover to support.
+
+3.2 Go-Live readiness criteria typically include: approved workflows and roles; completed UAT (or agreed
+    deferrals); completed agreed training; infrastructure readiness; and nominated support contacts.
+
+3.3 Assumptions. Timelines depend on timely Client inputs, approvals, stakeholder availability,
+    infrastructure readiness, and third-party access. Delays attributable to the Client or third parties may
+    shift milestones and commercial assumptions.
+
+3.4 Warranty support. Unless otherwise agreed, Integral provides ninety (90) days post-Go-Live warranty
+    support for material defects in the agreed scope (excluding Client misuse, unsupported environments,
+    and third-party faults).
+
+================================================================================
+4. CLIENT OBLIGATIONS AND SHARED SECURITY
+================================================================================
+
+4.1 The Client shall:
+    (a) provide accurate workflows, user lists, charge schedules, stock lists, payer mappings and decisions
+        in agreed formats and timelines;
+    (b) nominate operational, clinical, finance and technical focal persons with authority to decide;
+    (c) ensure infrastructure readiness (devices, LAN/Wi-Fi, internet, printers, browsers, power stability,
+        and on-premise server environment where applicable);
+    (d) ensure staff attend training, UAT and go-live activities;
+    (e) use the Software lawfully and maintain internal access governance; and
+    (f) not reverse engineer, copy, resell or sublicense the Software without written consent.
+
+4.2 Shared cybersecurity responsibilities:
+    Area                         Integral                              Client
+    ---------------------------  ------------------------------------  ------------------------------------
+    Application security         Secure development, patches within    Use as documented; no unauthorized
+                                 managed product scope                 modifications
+    User access                  Provide role-based access controls    Approve roles; create/disable users
+    Endpoints / local network    Guidance for supported setups         Secure devices, AV, OS updates,
+                                                                       physical & network security
+    Credentials / behaviour      Configurable auth controls            Password discipline & awareness
+    Data protection              Process per instructions; reasonable  Lawful collection/use; patient/
+                                 technical & organisational measures   staff consents; compliance duties
+
+================================================================================
+5. DATA MIGRATION, THIRD PARTIES AND CHANGE CONTROL
+================================================================================
+
+5.1 Data migration from legacy systems is excluded unless expressly priced and agreed in writing. Where
+    included, the Client remains responsible for quality, completeness, legality and correctness of source
+    data. Integral is not obliged to cleanse or reconstruct historical data beyond agreed import mapping.
+
+5.2 Third-party systems (SHA, DHA/HIE, banks, SMS, device OEMs, payment rails, hosting providers) remain
+    outside Integral’s sole control. Integral will use reasonable efforts to enable agreed integrations, but
+    does not guarantee third-party availability, approvals, pricing, performance or policy stability.
+    Claim acceptance and reimbursement outcomes remain subject to Client data quality, clinical/billing
+    practice, payer rules and external platform availability.
+
+5.3 Change Control. After baseline confirmation, any change to scope, workflows, integrations, reports,
+    training model, deployment model or timelines is a Change Request and requires written approval,
+    with assessment of feasibility, timeline and commercial impact. Product enhancements for shared
+    platforms may be routed through Integral’s roadmap/release process rather than immediate
+    project change.
+
+================================================================================
+6. FEES AND PAYMENT
+================================================================================
+
+6.1 Fees are as set out in the Quotation (exclusive of applicable taxes unless stated). Payment terms follow the Quotation / Schedule A.
+
+6.2 Bank details:
+    Account Name: Integral Software Technology Ltd
+    Bank: NCBA Bank | Branch: Upper Hill, Nairobi
+    Account Number: 8550180018
+
+6.3 Late payment may attract lawful interest and, after written notice, suspension of Services or access.
+    Annual licence / support fees renew as quoted unless terminated under this Agreement.
+
+================================================================================
+7. TRAINING, DOCUMENTATION AND ACCEPTANCE
+================================================================================
+
+7.1 Integral shall provide role-based training for agreed user groups and administrator handover.
+
+7.2 User and/or technical manuals (or equivalent digital guides) shall be provided for the agreed scope.
+
+7.3 UAT and Go-Live confirmation in writing (email acceptable) constitute acceptance of the delivered
+    scope, subject to outstanding warranty defects.
+
+================================================================================
+8. SUPPORT AND SERVICE LEVELS
+================================================================================
+
+8.1 Support is provided under a valid support/maintenance arrangement (embedded in licence/AMC or
+    separately quoted) and covers product troubleshooting, workarounds, updates and patches within scope.
+
+8.2 Indicative severity response targets (business hours unless Critical continuity is agreed):
+
+    Severity   Impact                              Initial response target
+    ---------  ----------------------------------  ------------------------
+    Critical   Production stoppage / unavailability Within 1–4 hours
+    High       Major feature down, no workaround   Within 1 business day
+    Medium     Moderate impact, workaround exists  Within 2 business days
+    Low        Minor / guidance                    Within 3 business days
+
+8.3 Exclusions: third-party software/hardware not supplied by Integral; unauthorized modifications;
+    misuse; Customer network/power failure; and formal training beyond agreed refresher guidance.
+
+8.4 Optional on-site support may be quoted separately.
+
+================================================================================
+9. INTELLECTUAL PROPERTY AND CLIENT DATA
+================================================================================
+
+9.1 Integral retains all IP in the Software, code, architecture, documentation, methodologies and
+    pre-existing materials.
+
+9.2 The Client retains ownership of Client data. Subject to fees paid, Integral shall provide a reasonable
+    data export within thirty (30) days of written request after termination.
+
+9.3 After discontinuation, Integral may retain data only as required/permitted by Kenyan law, regulator
+    directive, dispute needs or written agreement. Extended hosted retention/read-only access may attract
+    a separately confirmed retention fee.
+
+================================================================================
+10. DATA PROTECTION
+================================================================================
+
+10.1 The Parties shall comply with the Data Protection Act, 2019 and applicable digital-health rules.
+
+10.2 Where Integral processes Personal Data for the Client, Integral acts as Data Processor and the Client
+     as Data Controller (unless law requires otherwise).
+
+10.3 Integral shall apply reasonable security safeguards. The Client remains responsible for lawful
+     instructions and required consents.
+
+10.4 Integral maintains ODPC Data Processor registration (as applicable) and DHA certification for
+     declared HMIS scope (CERT-2026-4GFA8APJ).
+
+================================================================================
+11. WARRANTIES, CLINICAL USE AND LIABILITY
+================================================================================
+
+11.1 Integral warrants Services will be performed with reasonable skill and care and that the Software will
+     materially perform documented functions under normal authorized use.
+
+11.2 No warranty of uninterrupted or error-free operation is given for all circumstances, nor for
+     third-party systems or Client-controlled environments.
+
+11.3 Clinical decisions remain the responsibility of qualified healthcare professionals. The Software is an
+     operational tool, not a substitute for professional medical judgement.
+
+11.4 Subject to non-excludable liabilities (fraud; death/personal injury by negligence), each Party’s
+     aggregate liability is limited to fees paid by the Client under the Quotation in the preceding twelve
+     (12) months. Indirect/consequential loss is excluded to the extent permitted by law.
+
+================================================================================
+12. CONFIDENTIALITY
+================================================================================
+
+Each Party shall keep the other’s non-public commercial, technical, financial, operational, security and
+patient-related information confidential and use it only for evaluation, contracting, implementation,
+support and compliance. Exceptions: information already public through no fault; independently developed;
+lawfully received from a third party; or required by law (with notice where lawful). Obligations survive
+termination for at least three (3) years (longer for Personal Data/trade secrets as required).
+
+================================================================================
+13. TERM AND TERMINATION
+================================================================================
+
+13.1 Starts on the Effective Date for the licence/service term in the Quotation and renews as agreed.
+
+13.2 Either Party may terminate for material breach not remedied within thirty (30) days of notice, or
+     immediately for insolvency.
+
+13.3 On termination the Client shall cease Software use (except agreed wind-down/export) and pay all
+     outstanding fees.
+
+================================================================================
+14. FORCE MAJEURE AND GENERAL
+================================================================================
+
+14.1 Neither Party is liable for delay caused by events beyond reasonable control, provided prompt notice
+     and mitigation.
+
+14.2 This Agreement and Quotation/Schedule are the entire agreement. Conflicts: commercial particulars in
+     the Quotation prevail for price/timeline/modules; otherwise this Agreement prevails.
+
+14.3 Amendments and Change Requests must be in writing and approved by authorised representatives.
+
+14.4 Governing law: Laws of Kenya. Disputes: negotiation first; then Kenyan courts (or mediation/
+     arbitration if agreed in writing).
+
+14.5 Notices may be sent to the addresses above, including email.
+
+================================================================================
+SCHEDULE A — COMMERCIAL SUMMARY
+================================================================================
+
+Client / Facility: _______________________________  Location: __________________________
+
+Deployment:  [ ] Cloud   [ ] On-Premise     Licence term: ______________________________
+
+Modules / integrations included: _____________________________________________________
+
+Quotation Ref: ______________  Date: ______________  Contract value (KES): ______________
+
+Payment schedule: ____________________________________________________________________
+
+Target go-live window: _________________  Support package / AMC: _______________________
+
+Implementation duration (indicative): ____________  Focal persons: _____________________
+
+Hardware / environment (Client-provided unless quoted): ________________________________
+
+Data migration included?:  [ ] No   [ ] Yes (describe): ________________________________
+
+================================================================================
+SIGNATURES
+================================================================================
+
+FOR INTEGRAL SOFTWARE TECHNOLOGY LTD          FOR THE CLIENT
+
+Sign: _______________________________         Sign: _______________________________
+
+Name: _______________________________         Name: _______________________________
+
+Title: ______________________________         Title: ______________________________
+
+Date: _______________________________         Date: _______________________________
+
+Company stamp (optional)                      Company stamp (optional)
+
+By signing, each signatory confirms authority to bind their organisation.

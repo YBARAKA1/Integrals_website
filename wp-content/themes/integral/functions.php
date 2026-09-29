@@ -14,6 +14,7 @@ define( 'INTEGRAL_URI', get_template_directory_uri() );
 require_once INTEGRAL_DIR . '/inc/content.php';
 require_once INTEGRAL_DIR . '/inc/facility-api.php';
 require_once INTEGRAL_DIR . '/inc/mail.php';
+require_once INTEGRAL_DIR . '/inc/leads.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
@@ -100,7 +101,8 @@ add_filter( 'template_include', function ( $template ) {
 			'our-business-model'        => 'page-company.php',
 			'our-people'                => 'page-company.php',
 			'our-partners'              => 'page-company.php',
-			'careers'                   => 'page-company.php',
+			'certifications'            => 'page-certifications.php',
+			'careers'                   => 'page-careers.php',
 		);
 		if ( isset( $map[ $slug ] ) ) {
 			$custom = INTEGRAL_DIR . '/' . $map[ $slug ];
@@ -119,6 +121,10 @@ add_filter( 'template_include', function ( $template ) {
 } );
 
 function integral_logo_url() {
+	$header = INTEGRAL_DIR . '/assets/logo-header.jpg';
+	if ( file_exists( $header ) ) {
+		return INTEGRAL_URI . '/assets/logo-header.jpg';
+	}
 	$path = WP_CONTENT_DIR . '/uploads/logomain.png';
 	if ( file_exists( $path ) ) {
 		return content_url( 'uploads/logomain.png' );

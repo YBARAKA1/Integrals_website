@@ -28,9 +28,9 @@ if ( ! $data ) {
 <section class="int-section">
 	<div class="int-container">
 		<?php if ( ! empty( $data['sections'] ) ) : ?>
-			<div class="int-blocks <?php echo count( $data['sections'] ) > 1 ? 'cols-2' : ''; ?>">
+			<div class="int-blocks <?php echo count( $data['sections'] ) > 2 ? 'cols-3' : ( count( $data['sections'] ) > 1 ? 'cols-2' : '' ); ?>">
 				<?php foreach ( $data['sections'] as $section ) : ?>
-					<div class="int-block int-reveal">
+					<div class="int-block int-reveal<?php echo ( ! empty( $section['heading'] ) && 'Latest integration' === $section['heading'] ) ? ' int-block--highlight' : ''; ?>">
 						<h3><?php echo esc_html( $section['heading'] ); ?></h3>
 						<p><?php echo esc_html( $section['body'] ); ?></p>
 					</div>
@@ -48,7 +48,7 @@ if ( ! $data ) {
 		<?php endif; ?>
 
 		<div style="margin-top:3rem;" class="int-reveal">
-			<button type="button" class="int-btn int-btn--primary" data-demo-open>Request HMIS demo</button>
+			<button type="button" class="int-btn int-btn--primary" data-demo-open>Get a Quote</button>
 			<a class="int-btn int-btn--ghost" style="margin-left:0.5rem;" href="<?php echo esc_url( home_url( '/softwares/' ) ); ?>">See HMIS</a>
 		</div>
 	</div>

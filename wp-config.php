@@ -20,8 +20,9 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('WP_HOME', 'http://localhost:8080');
-define('WP_SITEURL', 'http://localhost:8080');
+$integral_home = getenv( 'INTEGRAL_WP_HOME' ) ?: 'http://localhost:8080';
+define( 'WP_HOME', $integral_home );
+define( 'WP_SITEURL', getenv( 'INTEGRAL_WP_SITEURL' ) ?: $integral_home );
 define('WP_HTTP_BLOCK_EXTERNAL', false);
 define('WP_POST_REVISIONS', false);
 define('AUTOSAVE_INTERVAL', 3000); // seconds
@@ -93,11 +94,8 @@ define('WP_DEBUG', false);
  *   POST {HIE}/api/v1/tenants/token  (client_id + client_secret)
  *   GET  {HIE}/api/v1/facilities/search?identifier=&identifier-type=
  *
- * Fallbacks when HIE credentials are not configured:
- *   CoC / KMPDC → SHA guest portal; FR → DHA FHIR + FR cache.
- *
- * Set INTEGRAL_SHA_HIE_URL, INTEGRAL_SHA_CLIENT_ID, INTEGRAL_SHA_CLIENT_SECRET
- * to the same values as Institution → SHA Setup (url / consumer key / secret).
+ * Defaults below are copied from local HMIS core.sha_setup (Institution → SHA Setup).
+ * Env vars / .sha-hie.env still override when set.
  */
 if ( ! defined( 'INTEGRAL_SHA_PORTAL_PROXY' ) ) {
 	define( 'INTEGRAL_SHA_PORTAL_PROXY', getenv( 'INTEGRAL_SHA_PORTAL_PROXY' ) ?: 'http://host.docker.internal:18787/sha/facilities' );
@@ -113,13 +111,13 @@ if ( ! defined( 'INTEGRAL_FHIR_API_URL' ) ) {
 	define( 'INTEGRAL_FHIR_API_URL', $fhir_default );
 }
 if ( ! defined( 'INTEGRAL_SHA_HIE_URL' ) ) {
-	define( 'INTEGRAL_SHA_HIE_URL', getenv( 'INTEGRAL_SHA_HIE_URL' ) ?: 'https://ilm-hie.dha.go.ke/middleware' );
+	define( 'INTEGRAL_SHA_HIE_URL', getenv( 'INTEGRAL_SHA_HIE_URL' ) ?: 'https://ilm-dev.dha.go.ke/uat-middleware' );
 }
 if ( ! defined( 'INTEGRAL_SHA_CLIENT_ID' ) ) {
-	define( 'INTEGRAL_SHA_CLIENT_ID', getenv( 'INTEGRAL_SHA_CLIENT_ID' ) ?: '' );
+	define( 'INTEGRAL_SHA_CLIENT_ID', getenv( 'INTEGRAL_SHA_CLIENT_ID' ) ?: 'afyaconnect-app-2fe59510-d3c2-49ff-a709-608260b61b1c' );
 }
 if ( ! defined( 'INTEGRAL_SHA_CLIENT_SECRET' ) ) {
-	define( 'INTEGRAL_SHA_CLIENT_SECRET', getenv( 'INTEGRAL_SHA_CLIENT_SECRET' ) ?: '' );
+	define( 'INTEGRAL_SHA_CLIENT_SECRET', getenv( 'INTEGRAL_SHA_CLIENT_SECRET' ) ?: 'kORj99ZzOgr4nr96DGnwpSW6KoovQaYS' );
 }
 
 /* That's all, stop editing! Happy blogging. */

@@ -66,7 +66,7 @@ $rates   = $pricing['rates'];
 				</div>
 				<span class="int-pricing__summary-save" data-summary-save hidden></span>
 				<button type="button" class="int-btn int-btn--primary" data-pricing-cta>
-					Request this plan
+					Get a Quote
 				</button>
 			</div>
 		</div>

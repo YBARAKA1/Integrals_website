@@ -37,7 +37,7 @@
       else unlockScroll();
     });
 
-    drawer.querySelectorAll("a").forEach(function (link) {
+    drawer.querySelectorAll("a, [data-drawer-close]").forEach(function (link) {
       link.addEventListener("click", function () {
         drawer.classList.remove("is-open");
         toggle.classList.remove("is-open");
@@ -98,18 +98,39 @@
       panel = [];
     }
 
+    var kind = tab.getAttribute("data-kind") || "kpis";
     if (kpis) {
-      kpis.innerHTML = panel
-        .map(function (label) {
-          return (
-            '<div class="int-console__kpi"><strong>' +
-            randVal() +
-            "</strong><small>" +
-            label +
-            "</small></div>"
-          );
-        })
-        .join("");
+      if (kind === "cards") {
+        kpis.className = "int-console__kpis int-console__kpis--cards";
+        kpis.innerHTML = panel
+          .map(function (item) {
+            var name = typeof item === "string" ? item : item && item.name ? item.name : "";
+            var hint = typeof item === "string" ? "" : item && item.hint ? item.hint : "";
+            return (
+              '<div class="int-console__chip">' +
+              "<strong>" +
+              name +
+              "</strong>" +
+              (hint ? "<span>" + hint + "</span>" : "") +
+              "</div>"
+            );
+          })
+          .join("");
+      } else {
+        kpis.className = "int-console__kpis";
+        kpis.innerHTML = panel
+          .map(function (label) {
+            var text = typeof label === "string" ? label : label && label.name ? label.name : "";
+            return (
+              '<div class="int-console__kpi"><strong>' +
+              randVal() +
+              "</strong><small>" +
+              text +
+              "</small></div>"
+            );
+          })
+          .join("");
+      }
     }
   }
 
@@ -144,18 +165,38 @@
     }
   }
 
+  function clearQuoteContactFacilityFields() {
+    var nameField = document.querySelector("[data-demo-facility-name]");
+    var frField = document.querySelector("[data-demo-fr-code]");
+    var typeField = document.querySelector("[data-demo-facility-type-field]");
+    var levelField = document.querySelector("[data-demo-facility-level]");
+    var snapshotField = document.querySelector("[data-demo-facility-snapshot]");
+    var emailField = document.querySelector("[data-demo-email]");
+    var phoneField = document.querySelector("[data-demo-phone]");
+    if (nameField) nameField.value = "";
+    if (frField) frField.value = "";
+    if (typeField) typeField.value = "";
+    if (levelField) levelField.value = "";
+    if (snapshotField) snapshotField.value = "";
+    if (emailField) emailField.value = "";
+    if (phoneField) phoneField.value = "";
+  }
+
   function renderFacility(box, data) {
     var fields = [
       ["FR code", data.frCode],
-      ["Level", data.level],
+      ["FID", data.fidCode],
       ["Type", data.facilityType],
+      ["Level", data.level],
+      ["Ownership", data.ownership],
       ["County", data.county],
       ["Sub-county", data.subCounty],
-      ["Beds", data.totalBeds],
-      ["SHA status", data.shaStatus],
-      ["Ownership", data.ownership],
+      ["Town", data.town],
       ["Phone", data.phone],
       ["Email", data.email],
+      ["SHA status", data.shaStatus],
+      ["Licence", data.licenseStatus],
+      ["Matched as", data.matchedType],
     ].filter(function (row) {
       return row[1] !== undefined && row[1] !== null && String(row[1]).trim() !== "";
     });
@@ -179,97 +220,252 @@
         .join("") +
       "</div>";
 
-    // Prefill demo form if present
+    // Prefill quote form (same as HMIS institution.js auto-fill)
     var nameField = document.querySelector("[data-demo-facility-name]");
     var frField = document.querySelector("[data-demo-fr-code]");
+    var emailField = document.querySelector("[data-demo-email]");
+    var phoneField = document.querySelector("[data-demo-phone]");
+    var levelField = document.querySelector("[data-demo-facility-level]");
+    var snapshotField = document.querySelector("[data-demo-facility-snapshot]");
     if (nameField && data.name) nameField.value = data.name;
     if (frField && data.frCode) frField.value = data.frCode;
+    if (emailField && data.email) emailField.value = String(data.email).trim();
+    if (phoneField && data.phone) phoneField.value = String(data.phone).trim();
 
-    // If facility type matches a button, select it
-    if (data.level) {
-      var levelHint = String(data.level).toLowerCase();
-      document.querySelectorAll("[data-demo-facility-type]").forEach(function (btn) {
-        var label = (btn.getAttribute("data-demo-facility-type") || "").toLowerCase();
-        var match =
-          (levelHint.indexOf("6") >= 0 && label.indexOf("level 6") >= 0) ||
-          (levelHint.indexOf("5") >= 0 && label.indexOf("level 5") >= 0) ||
-          (levelHint.indexOf("4") >= 0 && label.indexOf("level 4") >= 0) ||
-          (levelHint.indexOf("3") >= 0 && label.indexOf("level 3") >= 0) ||
-          (levelHint.indexOf("2") >= 0 && label.indexOf("level 2") >= 0);
-        if (match) {
-          btn.classList.add("is-on");
-          var field = document.querySelector("[data-demo-facility-type-field]");
-          if (field) field.value = btn.getAttribute("data-demo-facility-type") || "";
-        }
+    if (snapshotField) {
+      snapshotField.value = JSON.stringify({
+        name: data.name || "",
+        frCode: data.frCode || "",
+        fidCode: data.fidCode || "",
+        facilityType: data.facilityType || "",
+        level: data.level || "",
+        ownership: data.ownership || "",
+        county: data.county || "",
+        subCounty: data.subCounty || "",
+        town: data.town || "",
+        phone: data.phone || "",
+        email: data.email || "",
+        shaStatus: data.shaStatus || "",
+        licenseStatus: data.licenseStatus || "",
+        matchedType: data.matchedType || "",
       });
     }
+
+    if (data.level) {
+      var levelHint = String(data.level).toLowerCase();
+      var levelNum = "";
+      var m = levelHint.match(/(?:level\s*)?([2-6])/);
+      if (m) levelNum = m[1];
+      if (levelField && levelNum) levelField.value = levelNum;
+
+      var field = document.querySelector("[data-demo-facility-type-field]");
+      if (field) {
+        var label = "";
+        if (levelHint.indexOf("6") >= 0) label = "Level 6 — National / teaching referral";
+        else if (levelHint.indexOf("5") >= 0) label = "Level 5 — County referral hospital";
+        else if (levelHint.indexOf("4") >= 0) label = "Level 4 — Sub-county / Primary hospital";
+        else if (levelHint.indexOf("3") >= 0) label = "Level 3 — Health Centre";
+        else if (levelHint.indexOf("2") >= 0) label = "Level 2 — Dispensary / Clinic";
+        if (label) field.value = label;
+      }
+    }
+  }
+
+  function runFacilityLookup(form) {
+    var code = (form.querySelector('[name="code"]') || {}).value || "";
+    var type = (form.querySelector('[name="type"]') || {}).value || "auto";
+    var status = form.querySelector("[data-facility-status]");
+    var result = form.querySelector("[data-facility-result]");
+    var terminal = form.querySelector("[data-facility-terminal]");
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var continueBtn = form.querySelector("[data-demo-next], [data-facility-continue]");
+    code = String(code).trim();
+    var requestCode = code;
+
+    if (!code) {
+      resetFacilityHint(form);
+      if (result) {
+        result.hidden = true;
+        result.innerHTML = "";
+      }
+      if (terminal) terminal.value = "";
+      return Promise.resolve({ ok: false, empty: true });
+    }
+
+    if (status) {
+      resetFacilityHint(form);
+    }
+    if (result) {
+      result.hidden = true;
+      result.innerHTML = "";
+    }
+    if (terminal) terminal.value = "";
+    clearQuoteContactFacilityFields();
+    if (continueBtn) continueBtn.disabled = true;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add("is-loading");
+      var label = submitBtn.querySelector("span:not(.int-btn__spinner)");
+      if (label) label.textContent = "Searching…";
+      else submitBtn.textContent = "Searching…";
+    }
+
+    var url =
+      cfg.ajaxUrl +
+      "?action=integral_facility_lookup&code=" +
+      encodeURIComponent(code) +
+      "&type=" +
+      encodeURIComponent(type);
+
+    function currentCode() {
+      var el = form.querySelector('[name="code"]');
+      return el ? String(el.value || "").trim() : "";
+    }
+
+    function isStale() {
+      return currentCode() !== requestCode;
+    }
+
+    return fetch(url, { credentials: "same-origin" })
+      .then(function (res) {
+        return res.json().then(function (json) {
+          return { ok: res.ok, json: json };
+        });
+      })
+      .then(function (payload) {
+        if (isStale()) {
+          if (!currentCode()) resetFacilityHint(form);
+          return { ok: true, stale: true };
+        }
+        if (payload.json && payload.json.success && payload.json.data) {
+          var data = payload.json.data;
+          if (status) {
+            status.className = "int-facility__hint is-ok";
+            status.textContent = "Facility found...";
+          }
+          if (terminal) {
+            terminal.value = data.registryText || ("No facility found for " + code);
+          }
+          if (result) renderFacility(result, data);
+          return { ok: true, found: true };
+        }
+        var msg =
+          (payload.json && payload.json.data && payload.json.data.message) ||
+          "No facility found for that identifier.";
+        if (status) {
+          status.className = "int-facility__hint is-error";
+          status.textContent = msg;
+        }
+        if (terminal) {
+          terminal.value = "No facility found for " + code + "\n" + msg;
+        }
+        return { ok: true, found: false };
+      })
+      .catch(function () {
+        if (isStale()) {
+          if (!currentCode()) resetFacilityHint(form);
+          return { ok: false, stale: true };
+        }
+        if (status) {
+          status.className = "int-facility__hint is-error";
+          status.textContent = "Lookup failed. Try again shortly.";
+        }
+        if (terminal) terminal.value = "Lookup failed. Try again shortly.";
+        return { ok: false, found: false };
+      })
+      .then(function (outcome) {
+        if (continueBtn) continueBtn.disabled = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("is-loading");
+          var doneLabel = submitBtn.querySelector("span:not(.int-btn__spinner)");
+          if (doneLabel) doneLabel.textContent = "Lookup";
+          else submitBtn.textContent = "Lookup";
+        }
+        if (outcome && outcome.stale && !currentCode()) {
+          resetFacilityHint(form);
+        }
+        return outcome;
+      });
+  }
+
+  function facilityLookupIfNeeded(form) {
+    if (!form) return Promise.resolve({ ok: true, skipped: true });
+    var codeEl = form.querySelector('[name="code"]');
+    var code = codeEl ? String(codeEl.value || "").trim() : "";
+    if (!code) {
+      resetFacilityHint(form);
+      return Promise.resolve({ ok: true, skipped: true, empty: true });
+    }
+    // Already have a successful result for this search — skip re-lookup.
+    var status = form.querySelector("[data-facility-status]");
+    var result = form.querySelector("[data-facility-result]");
+    var alreadyFound =
+      status &&
+      status.classList.contains("is-ok") &&
+      result &&
+      !result.hidden &&
+      result.innerHTML.trim() !== "";
+    if (alreadyFound) return Promise.resolve({ ok: true, skipped: true, found: true });
+    return runFacilityLookup(form);
+  }
+
+  function resetFacilityHint(form) {
+    var status = form.querySelector("[data-facility-status]");
+    if (!status) return;
+    status.className = "int-facility__hint";
+    status.textContent = "Lookup by FR Code, FID, Registration Number";
   }
 
   function setupFacilityForms() {
     document.querySelectorAll("[data-facility-form]").forEach(function (form) {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        var code = (form.querySelector('[name="code"]') || {}).value || "";
-        var type = (form.querySelector('[name="type"]') || {}).value || "auto";
-        var status = form.querySelector("[data-facility-status]");
-        var result = form.querySelector("[data-facility-result]");
-        code = String(code).trim();
-        if (!code) return;
+        runFacilityLookup(form);
+      });
 
-        if (status) {
-          status.className = "int-facility__hint";
-          status.textContent = "Searching facility registry…";
+      var codeInput = form.querySelector('[name="code"]');
+      if (codeInput) {
+        codeInput.addEventListener("input", function () {
+          var value = String(codeInput.value || "").trim();
+          var status = form.querySelector("[data-facility-status]");
+          var result = form.querySelector("[data-facility-result]");
+          var terminal = form.querySelector("[data-facility-terminal]");
+          var shouldReset =
+            !value ||
+            (status &&
+              (status.classList.contains("is-ok") ||
+                status.classList.contains("is-error") ||
+                status.classList.contains("is-loading")));
+
+          if (shouldReset) {
+            resetFacilityHint(form);
+          }
+          if (!value) {
+            if (result) {
+              result.hidden = true;
+              result.innerHTML = "";
+            }
+            if (terminal) terminal.value = "";
+            clearQuoteContactFacilityFields();
+          }
+        });
+      }
+    });
+
+    document.querySelectorAll("[data-facility-continue]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var form = btn.closest("[data-facility-form]");
+        var codeEl = form ? form.querySelector('[name="code"]') : null;
+        var code = codeEl ? String(codeEl.value || "").trim() : "";
+        if (form && !code) {
+          resetFacilityHint(form);
         }
-        if (result) {
-          result.hidden = true;
-          result.innerHTML = "";
-        }
-
-        var url =
-          cfg.ajaxUrl +
-          "?action=integral_facility_lookup&code=" +
-          encodeURIComponent(code) +
-          "&type=" +
-          encodeURIComponent(type);
-
-        fetch(url, { credentials: "same-origin" })
-          .then(function (res) {
-            return res.json().then(function (json) {
-              return { ok: res.ok, json: json };
-            });
-          })
-          .then(function (payload) {
-            if (payload.json && payload.json.success && payload.json.data) {
-              if (status) {
-                status.className = "int-facility__hint is-ok";
-                var sourceLabel = "";
-                if (payload.json.data.source === "sha-portal") sourceLabel = " via SHA portal";
-                else if (payload.json.data.source === "sha-hie") sourceLabel = " via SHA HIE (same as HMIS institution setup)";
-                else if (payload.json.data.source === "dha-fhir") sourceLabel = " via live DHA registry";
-                else if (payload.json.data.source === "sha") sourceLabel = " via SHA HIE";
-                else if (payload.json.data.source === "hmis") sourceLabel = " via Integral HMIS";
-                else if (payload.json.data.source === "fr-cache") sourceLabel = " via facility registry";
-                else if (payload.json.data.source) sourceLabel = " via " + payload.json.data.source.toUpperCase();
-                status.textContent =
-                  "Facility found" + sourceLabel + ".";
-              }
-              if (result) renderFacility(result, payload.json.data);
-              return;
-            }
-            var msg =
-              (payload.json && payload.json.data && payload.json.data.message) ||
-              "No facility found for that FR code or registration number.";
-            if (status) {
-              status.className = "int-facility__hint is-error";
-              status.textContent = msg;
-            }
-          })
-          .catch(function () {
-            if (status) {
-              status.className = "int-facility__hint is-error";
-              status.textContent = "Lookup failed. Try again shortly.";
-            }
-          });
+        facilityLookupIfNeeded(form).then(function () {
+          if (window.IntegralDemo && typeof window.IntegralDemo.openContact === "function") {
+            window.IntegralDemo.openContact();
+          }
+        });
       });
     });
   }
@@ -310,10 +506,191 @@
     if (active) setSubject(active.getAttribute("data-intent") || "HMIS Demo");
   }
 
+  function setupCareers() {
+    var root = document.querySelector("[data-careers]");
+    if (!root) return;
+
+    function setAlert(el, message, isError) {
+      if (!el) return;
+      el.hidden = !message;
+      el.textContent = message || "";
+      el.classList.toggle("is-error", !!isError);
+      el.classList.toggle("is-ok", !!message && !isError);
+    }
+
+    function closePanel(card) {
+      var panel = card.querySelector("[data-career-panel]");
+      var toggle = card.querySelector("[data-career-toggle]");
+      if (panel) panel.hidden = true;
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+    }
+
+    root.querySelectorAll("[data-career-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest("[data-career-role]");
+        if (!card) return;
+        var panel = card.querySelector("[data-career-panel]");
+        if (!panel) return;
+        var open = panel.hidden;
+        root.querySelectorAll("[data-career-role]").forEach(closePanel);
+        if (open) {
+          panel.hidden = false;
+          btn.setAttribute("aria-expanded", "true");
+          var first = panel.querySelector("input, textarea");
+          if (first) first.focus();
+        }
+      });
+    });
+
+    root.querySelectorAll("[data-career-cancel]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest("[data-career-role]");
+        if (card) closePanel(card);
+      });
+    });
+
+    root.querySelectorAll("[data-career-form]").forEach(function (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var alertEl = form.querySelector("[data-career-alert]");
+        var submitBtn = form.querySelector("[data-career-submit]");
+        var ajaxUrl =
+          (window.IntegralTheme && IntegralTheme.ajaxUrl) || "/wp-admin/admin-ajax.php";
+        var data = new FormData(form);
+        data.append("action", "integral_send_career");
+
+        setAlert(alertEl, "");
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending…";
+        }
+
+        fetch(ajaxUrl, { method: "POST", body: data, credentials: "same-origin" })
+          .then(function (res) {
+            return res.json().then(function (json) {
+              return { ok: res.ok, json: json };
+            });
+          })
+          .then(function (result) {
+            var json = result.json || {};
+            var msg =
+              (json.data && json.data.message) ||
+              json.message ||
+              (result.ok && json.success
+                ? "Application sent."
+                : "Could not send application.");
+            if (result.ok && json.success) {
+              setAlert(alertEl, msg, false);
+              form.reset();
+            } else {
+              setAlert(alertEl, msg, true);
+            }
+          })
+          .catch(function () {
+            setAlert(alertEl, "Network error. Please try again.", true);
+          })
+          .finally(function () {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send application";
+            }
+          });
+      });
+    });
+  }
+
+  function setupThemeToggle() {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll("[data-theme-toggle]");
+    if (!buttons.length) return;
+
+    function isLight() {
+      return root.classList.contains("int-theme-light");
+    }
+
+    function syncButtons() {
+      var light = isLight();
+      buttons.forEach(function (btn) {
+        btn.setAttribute("aria-pressed", light ? "true" : "false");
+        btn.setAttribute(
+          "aria-label",
+          light ? "Switch to dark mode" : "Switch to white mode"
+        );
+        btn.setAttribute("title", light ? "Dark mode" : "White mode");
+        btn.classList.toggle("is-light", light);
+      });
+    }
+
+    function setTheme(light) {
+      root.classList.toggle("int-theme-light", !!light);
+      try {
+        localStorage.setItem("integral-theme", light ? "light" : "dark");
+      } catch (e) {}
+      syncButtons();
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setTheme(!isLight());
+      });
+    });
+
+    syncButtons();
+  }
+
+  function setupToast() {
+    var toast = document.querySelector("[data-toast]");
+    if (!toast) {
+      return {
+        show: function () {},
+        hide: function () {},
+      };
+    }
+    var msgEl = toast.querySelector("[data-toast-message]");
+    var closeBtn = toast.querySelector("[data-toast-close]");
+    var hideTimer = null;
+    var leaveTimer = null;
+
+    function hideToast() {
+      if (hideTimer) {
+        window.clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+      if (leaveTimer) {
+        window.clearTimeout(leaveTimer);
+        leaveTimer = null;
+      }
+      toast.classList.remove("is-visible");
+      toast.classList.add("is-leaving");
+      leaveTimer = window.setTimeout(function () {
+        toast.classList.remove("is-leaving");
+        toast.hidden = true;
+        leaveTimer = null;
+      }, 550);
+    }
+
+    function showToast(message) {
+      if (hideTimer) window.clearTimeout(hideTimer);
+      if (leaveTimer) window.clearTimeout(leaveTimer);
+      if (msgEl) msgEl.textContent = message || "Done.";
+      toast.hidden = false;
+      toast.classList.remove("is-leaving");
+      requestAnimationFrame(function () {
+        toast.classList.add("is-visible");
+      });
+      hideTimer = window.setTimeout(hideToast, 6500);
+    }
+
+    if (closeBtn) closeBtn.addEventListener("click", hideToast);
+
+    return { show: showToast, hide: hideToast };
+  }
+
   function setupDemoModal() {
     var modal = document.querySelector("[data-demo-modal]");
     if (!modal) return;
 
+    var toastApi = setupToast();
     var step = 1;
     var facilityType = "";
     var activeQuote = null;
@@ -324,21 +701,9 @@
         el.classList.toggle("is-active", Number(el.getAttribute("data-demo-step")) === n);
       });
       var dots = modal.querySelectorAll("[data-demo-progress] span");
-      if (activeQuote) {
-        // Plan flow uses steps 2 and 3 only → map to 2 visible dots
-        dots.forEach(function (el, i) {
-          if (i === 0) {
-            el.classList.remove("is-on");
-            return;
-          }
-          var local = n - 1; // 2→1, 3→2
-          el.classList.toggle("is-on", i <= local);
-        });
-      } else {
-        dots.forEach(function (el, i) {
-          el.classList.toggle("is-on", i < n);
-        });
-      }
+      dots.forEach(function (el, i) {
+        el.classList.toggle("is-on", i < n);
+      });
     }
 
     function clearPlan() {
@@ -391,43 +756,38 @@
       });
     }
 
-    function syncPlanProgress() {
-      var dots = modal.querySelectorAll("[data-demo-progress] span");
-      if (!dots.length) return;
-      if (activeQuote) {
-        dots[0].style.display = "none";
-      } else {
-        dots[0].style.display = "";
-      }
-    }
-
-    function openDemo(e, quote) {
+    function openDemo(e, quote, startStep) {
       if (e) e.preventDefault();
+      var alertEl = modal.querySelector("[data-demo-alert]");
+      if (alertEl) {
+        alertEl.hidden = true;
+        alertEl.textContent = "";
+        alertEl.className = "int-demo__alert";
+      }
       if (quote) {
         applyQuote(quote);
         var typeField = modal.querySelector("[data-demo-facility-type-field]");
         if (typeField) typeField.value = quote.modeLabel || quote.title || "";
+        // Pricing plan flow skips facility lookup → open on contact (step 2)
+        showStep(2);
       } else {
         clearPlan();
+        showStep(Number(startStep) === 2 ? 2 : 1);
       }
       modal.hidden = false;
-      syncPlanProgress();
-      showStep(activeQuote ? 2 : 1);
-      // Relabel steps when plan flow skips facility type
-      var step2 = modal.querySelector('[data-demo-step="2"] .int-eyebrow');
-      var step3 = modal.querySelector('[data-demo-step="3"] .int-eyebrow');
-      if (activeQuote) {
-        if (step2) step2.textContent = "Step 1";
-        if (step3) step3.textContent = "Step 2";
-      } else {
-        if (step2) step2.textContent = "Step 2";
-        if (step3) step3.textContent = "Step 3";
-      }
+      requestAnimationFrame(function () {
+        modal.classList.add("is-open");
+      });
       lockScroll();
     }
 
     function closeDemo() {
-      modal.hidden = true;
+      modal.classList.remove("is-open");
+      window.setTimeout(function () {
+        if (!modal.classList.contains("is-open")) {
+          modal.hidden = true;
+        }
+      }, 400);
       unlockScroll();
     }
 
@@ -445,84 +805,66 @@
       if (e.key === "Escape" && !modal.hidden) closeDemo();
     });
 
-    modal.querySelectorAll("[data-demo-facility-type]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        facilityType = btn.getAttribute("data-demo-facility-type") || "";
-        modal.querySelectorAll("[data-demo-facility-type]").forEach(function (b) {
-          b.classList.toggle("is-on", b === btn);
-        });
-        var field = modal.querySelector("[data-demo-facility-type-field]");
-        if (field) field.value = facilityType;
-      });
-    });
-
     modal.querySelectorAll("[data-demo-next]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        if (step === 1) {
-          var field = modal.querySelector("[data-demo-facility-type-field]");
-          if (field && !field.value && facilityType) field.value = facilityType;
+        if (step !== 1) return;
+        var lookupForm = modal.querySelector("[data-demo-facility-form], [data-facility-form]");
+        facilityLookupIfNeeded(lookupForm).then(function () {
           showStep(2);
-          return;
-        }
-        if (step === 2) {
-          var checked = modal.querySelectorAll(".int-demo__mod input:checked");
-          var mods = [];
-          checked.forEach(function (c) {
-            mods.push(c.value);
-          });
-          var modsField = modal.querySelector("[data-demo-modules-field]");
-          if (modsField) modsField.value = mods.join(", ");
-          showStep(3);
-        }
+        });
       });
     });
 
     modal.querySelectorAll("[data-demo-back]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        var min = activeQuote ? 2 : 1;
-        showStep(Math.max(min, step - 1));
+        // From contact, go back to facility lookup (or stay on contact if opened from pricing)
+        if (activeQuote) {
+          closeDemo();
+          return;
+        }
+        showStep(1);
       });
     });
 
     var form = modal.querySelector("[data-demo-form]");
     if (form) {
+      var formAlert = form.querySelector("[data-demo-alert]");
+
+      function setFormAlert(type, message) {
+        if (!formAlert) return;
+        if (!message) {
+          formAlert.hidden = true;
+          formAlert.textContent = "";
+          formAlert.className = "int-demo__alert";
+          return;
+        }
+        formAlert.hidden = false;
+        formAlert.className = "int-demo__alert is-" + type;
+        formAlert.textContent = message;
+      }
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var data = new FormData(form);
-        var submitBtn = form.querySelector('[type="submit"]');
-        var subject = activeQuote
-          ? "HMIS Plan — " + activeQuote.title + " — " + (data.get("facility") || "Facility")
-          : "HMIS Demo — " + (data.get("facility") || "Facility") + " (" + (data.get("facility_type") || "Facility type") + ")";
-        var lines = [
-          "Facility type: " + (data.get("facility_type") || ""),
-          "Facility: " + (data.get("facility") || ""),
-          "FR code: " + (data.get("fr_code") || ""),
-          "Modules: " + (data.get("modules") || ""),
-          "Name: " + (data.get("name") || ""),
-          "Email: " + (data.get("email") || ""),
-          "Phone: " + (data.get("phone") || ""),
-        ];
-        if (activeQuote) {
-          lines.unshift(
-            "Plan: " + activeQuote.summary,
-            "Setup: " + activeQuote.setupKshLabel + " | " + activeQuote.setupUsdLabel + " | " + activeQuote.setupEurLabel,
-            "Licence (" + activeQuote.billing + "): " + activeQuote.licenceKshLabel + " | " + activeQuote.licenceUsdLabel + " | " + activeQuote.licenceEurLabel,
-            "Year-one: " + activeQuote.yearOneKshLabel + " | " + activeQuote.yearOneUsdLabel + " | " + activeQuote.yearOneEurLabel,
-            ""
-          );
-        }
+        var submitBtn = form.querySelector("[data-demo-submit]") || form.querySelector('[type="submit"]');
 
         var payload = new FormData();
-        payload.set("action", "integral_send_inquiry");
-        payload.set("name", data.get("name") || "");
+        payload.set("action", "integral_send_quotation");
+        payload.set("facility", data.get("facility") || "");
+        payload.set("fr_code", data.get("fr_code") || "");
+        payload.set("facility_type", data.get("facility_type") || "");
+        payload.set("facility_level", data.get("facility_level") || "");
+        payload.set("facility_snapshot", data.get("facility_snapshot") || "");
         payload.set("email", data.get("email") || "");
         payload.set("phone", data.get("phone") || "");
-        payload.set("subject", subject);
-        payload.set("message", lines.join("\n"));
+        payload.set("message", data.get("message") || "");
 
+        setFormAlert("", "");
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.textContent = "Sending…";
+          submitBtn.classList.add("is-loading");
+          var label = submitBtn.querySelector("span:not(.int-btn__spinner)");
+          if (label) label.textContent = "Sending…";
         }
 
         fetch(cfg.ajaxUrl, { method: "POST", body: payload, credentials: "same-origin" })
@@ -531,25 +873,29 @@
               return { ok: res.ok, json: json };
             });
           })
-          .then(function (payload) {
-            if (payload.json && payload.json.success) {
-              form.reset();
+          .then(function (result) {
+            if (result.json && result.json.success) {
+              var okMsg =
+                (result.json.data && result.json.data.message) ||
+                "Quotation sent successfully.";
               closeDemo();
-              alert((payload.json.data && payload.json.data.message) || "Sent. We will get back to you shortly.");
+              if (toastApi && toastApi.show) toastApi.show(okMsg);
               return;
             }
             var msg =
-              (payload.json && payload.json.data && payload.json.data.message) ||
-              "Could not send. Check mail/SMTP configuration.";
-            alert(msg);
+              (result.json && result.json.data && result.json.data.message) ||
+              "Could not send quotation. Check mail/SMTP configuration.";
+            setFormAlert("error", msg);
           })
           .catch(function () {
-            alert("Could not send. Network or mail server error.");
+            setFormAlert("error", "Could not send quotation. Network or mail server error.");
           })
           .then(function () {
             if (submitBtn) {
               submitBtn.disabled = false;
-              submitBtn.textContent = "Book my demo";
+              submitBtn.classList.remove("is-loading");
+              var doneLabel = submitBtn.querySelector("span:not(.int-btn__spinner)");
+              if (doneLabel) doneLabel.textContent = "Submit";
             }
           });
       });
@@ -558,6 +904,9 @@
     window.IntegralDemo = {
       open: function (quote) {
         openDemo(null, quote || null);
+      },
+      openContact: function () {
+        openDemo(null, null, 2);
       },
       clearPlan: clearPlan,
     };
@@ -890,6 +1239,8 @@
     setupDemoModal();
     setupPricing();
     setupContactIntents();
+    setupCareers();
+    setupThemeToggle();
   });
 
   window.addEventListener("scroll", onScroll, { passive: true });

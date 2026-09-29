@@ -29,6 +29,7 @@ function integral_nav_tree() {
 				array( 'label' => 'Business Model', 'url' => home_url( '/our-business-model/' ) ),
 				array( 'label' => 'People', 'url' => home_url( '/our-people/' ) ),
 				array( 'label' => 'Partners', 'url' => home_url( '/our-partners/' ) ),
+				array( 'label' => 'Certifications', 'url' => home_url( '/certifications/' ) ),
 				array( 'label' => 'Careers', 'url' => home_url( '/careers/' ) ),
 			),
 		),
@@ -47,12 +48,23 @@ function integral_nav_tree() {
 			'url'   => home_url( '/industries/' ),
 		),
 		array(
-			'label' => 'Pricing',
-			'url'   => home_url( '/pricing/' ),
+			'label'  => 'Pricing',
+			'url'    => '#',
+			'action' => 'demo',
 		),
 		array(
 			'label' => 'Contact',
 			'url'   => home_url( '/contacts/' ),
+		),
+		array(
+			'label' => 'Careers',
+			'url'   => home_url( '/careers/' ),
+		),
+		array(
+			'label'  => 'Get a Quote',
+			'url'    => '#',
+			'cta'    => true,
+			'action' => 'demo',
 		),
 	);
 }
@@ -84,22 +96,10 @@ function integral_hmis_modules() {
 			'panel' => array( 'Open POs', 'Goods received', 'Stock alerts', 'Suppliers' ),
 		),
 		array(
-			'id'    => 'reports',
-			'title' => 'Reports & Analytics',
-			'blurb' => 'Operational, clinical, and financial reports leadership can act on.',
-			'panel' => array( 'Bed occupancy', 'Revenue mix', 'Turnaround', 'Quality KPIs' ),
-		),
-		array(
 			'id'    => 'hr',
-			'title' => 'HR & Employees',
+			'title' => 'HR & Payroll',
 			'blurb' => 'Staff rostering, credentials, attendance, and payroll-ready records.',
 			'panel' => array( 'On duty', 'Leave', 'Credentials', 'Departments' ),
-		),
-		array(
-			'id'    => 'ambulance',
-			'title' => 'Ambulance',
-			'blurb' => 'Dispatch, trip logs, and emergency movement tied into facility operations.',
-			'panel' => array( 'Active trips', 'Available units', 'ETA', 'Handovers' ),
 		),
 		array(
 			'id'    => 'pharmacy',
@@ -107,11 +107,31 @@ function integral_hmis_modules() {
 			'blurb' => 'Dispensing, stock, expiry, and controlled-item accountability.',
 			'panel' => array( 'Dispensed today', 'Low stock', 'Expiries', 'Ward issues' ),
 		),
+		array(
+			'id'    => 'accounts',
+			'title' => 'Accounts & Finance',
+			'blurb' => 'Ledgers, journals, receivables, payables, and month-end financial control.',
+			'panel' => array( 'General ledger', 'Accounts receivable', 'Accounts payable', 'Bank & cash' ),
+		),
+		array(
+			'id'    => 'integrations',
+			'title' => 'Integrations',
+			'blurb' => 'National schemes, payments, labs, fiscalization, and messaging—already on the rails.',
+			'kind'  => 'cards',
+			'panel' => integral_hmis_integrations(),
+		),
+		array(
+			'id'    => 'reports',
+			'title' => 'Reports & Analytics',
+			'blurb' => 'Operational, clinical, and financial reports leadership can act on.',
+			'panel' => array( 'Bed occupancy', 'Revenue mix', 'Turnaround', 'Quality KPIs' ),
+		),
 	);
 }
 
 function integral_hmis_integrations() {
 	return array(
+		array( 'name' => 'DHA', 'hint' => 'The Digital Health Agency' ),
 		array( 'name' => 'SHA', 'hint' => 'Kenya social health authority' ),
 		array( 'name' => 'MASM', 'hint' => 'Malawi medical aid' ),
 		array( 'name' => 'M-Pesa', 'hint' => 'Mobile payments' ),
@@ -179,6 +199,7 @@ function integral_company_pages() {
 			'sections' => array(
 				array( 'heading' => 'HMIS first', 'body' => 'Everything else we build sits next to a proven hospital operations platform—not a generic CRM dressed up for healthcare.' ),
 				array( 'heading' => 'National rails', 'body' => 'SHA, MASM, eTIMS, M-Pesa, LIS, SMS, mailing, MRA—integrations facilities actually need to run.' ),
+				array( 'heading' => 'Latest integration', 'body' => 'DHA Certification live on the platform — CERT-2026-4GFA8APJ. Also registered with the ODPC as a Data Processor (Serial 24255).' ),
 			),
 		),
 		'our-methodology'     => array(
@@ -230,6 +251,194 @@ function integral_company_pages() {
 			),
 		),
 	);
+}
+
+/**
+ * Official certifications shown on home + Certifications page.
+ *
+ * @return array<int,array<string,mixed>>
+ */
+function integral_certifications() {
+	$uri = get_template_directory_uri();
+	return array(
+		array(
+			'id'          => 'dha',
+			'eyebrow'     => 'Digital Health Agency',
+			'title'       => 'DHA Digital Health System Certification',
+			'summary'     => 'Integral has satisfactorily met the compliance and conformance requirements of the Kenya Digital Health Certification Framework for hospital information systems.',
+			'about'       => 'DHA is Kenya’s government digital health agency—advancing access, outcomes, and data security nationwide. Integral is certified under its Digital Health Certification Framework.',
+			'meta'        => array(
+				'Certificate' => 'CERT-2026-4GFA8APJ',
+				'Certified'   => '24 Sep 2026',
+				'Valid until' => '23 Sep 2028',
+			),
+			'image'       => $uri . '/assets/dha-certificate.jpg',
+			'pdf'         => $uri . '/assets/dha-certificate.pdf',
+			'image_alt'   => 'Digital Health Agency certification for Integral — CERT-2026-4GFA8APJ',
+			'cta_label'   => 'Open DHA Certificate',
+			'link_label'  => 'Visit DHA',
+			'link_url'    => 'https://www.dha.go.ke/',
+		),
+		array(
+			'id'          => 'odpc',
+			'eyebrow'     => 'Office of the Data Protection Commissioner',
+			'title'       => 'ODPC Certificate of Registration',
+			'summary'     => 'Integral Software Technology Ltd is registered with the Office of the Data Protection Commissioner as a Data Processor under Kenya’s Data Protection Act, 2019.',
+			'about'       => 'The ODPC safeguards personal data in Kenya—regulating how controllers and processors collect, use, and protect information, and giving individuals rights over their data. As a registered Data Processor, Integral processes facility and patient-related data on behalf of healthcare providers under that legal framework.',
+			'meta'        => array(
+				'Serial No.'  => '24255',
+				'Registration'=> '463-9791-862C',
+				'Role'        => 'Data Processor',
+				'Valid'       => '21 Jul 2026 – 21 Jul 2028',
+			),
+			'image'       => $uri . '/assets/odpc-certificate.jpg',
+			'pdf'         => $uri . '/assets/odpc-certificate.pdf',
+			'image_alt'   => 'ODPC Certificate of Registration for Integral Software Technology Ltd — Serial 24255',
+			'cta_label'   => 'Open ODPC Certificate',
+			'link_label'  => 'Visit ODPC',
+			'link_url'    => 'https://www.odpc.go.ke/',
+		),
+	);
+}
+
+/**
+ * Render one certification block (WP 4.9–safe).
+ *
+ * @param array $cert    Certification data.
+ * @param bool  $reverse Flip image/copy on desktop.
+ */
+function integral_render_certification( $cert, $reverse = false ) {
+	if ( empty( $cert['id'] ) ) {
+		return;
+	}
+	$anchor = 'cert-' . sanitize_html_class( $cert['id'] );
+	?>
+	<article class="int-dha int-cert<?php echo $reverse ? ' int-cert--reverse' : ''; ?>" id="<?php echo esc_attr( $anchor ); ?>">
+		<div class="int-dha__layout int-reveal">
+			<figure class="int-dha__figure">
+				<a
+					class="int-dha__frame"
+					href="<?php echo esc_url( $cert['pdf'] ); ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<img
+						src="<?php echo esc_url( $cert['image'] ); ?>"
+						alt="<?php echo esc_attr( $cert['image_alt'] ); ?>"
+						width="800"
+						height="1132"
+						loading="lazy"
+					>
+				</a>
+				<figcaption class="int-dha__caption">Official certificate · click to open PDF</figcaption>
+			</figure>
+			<div class="int-dha__copy">
+				<div class="int-eyebrow"><?php echo esc_html( $cert['eyebrow'] ); ?></div>
+				<h2><?php echo esc_html( $cert['title'] ); ?></h2>
+				<p><?php echo esc_html( $cert['summary'] ); ?></p>
+				<?php if ( ! empty( $cert['about'] ) ) : ?>
+					<p class="int-cert__about"><?php echo esc_html( $cert['about'] ); ?></p>
+				<?php endif; ?>
+				<?php if ( ! empty( $cert['meta'] ) && is_array( $cert['meta'] ) ) : ?>
+					<dl class="int-dha__meta int-dha__meta--<?php echo esc_attr( (string) count( $cert['meta'] ) ); ?>">
+						<?php foreach ( $cert['meta'] as $label => $value ) : ?>
+							<div>
+								<dt><?php echo esc_html( $label ); ?></dt>
+								<dd><?php echo esc_html( $value ); ?></dd>
+							</div>
+						<?php endforeach; ?>
+					</dl>
+				<?php endif; ?>
+				<div class="int-dha__actions">
+					<a class="int-btn int-btn--primary" href="<?php echo esc_url( $cert['pdf'] ); ?>" target="_blank" rel="noopener noreferrer">
+						<?php echo esc_html( $cert['cta_label'] ); ?>
+					</a>
+					<?php if ( ! empty( $cert['link_url'] ) ) : ?>
+						<a class="int-btn int-btn--ghost" href="<?php echo esc_url( $cert['link_url'] ); ?>" target="_blank" rel="noopener noreferrer">
+							<?php echo esc_html( ! empty( $cert['link_label'] ) ? $cert['link_label'] : 'Learn more' ); ?>
+						</a>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php
+}
+
+/**
+ * Open career roles. Applications auto-close after closes_at (end of day EAT).
+ *
+ * @return array<int,array<string,mixed>>
+ */
+function integral_careers_openings() {
+	$raised = '2026-09-25';
+	$closes = '2026-10-30';
+	$tz     = new DateTimeZone( 'Africa/Nairobi' );
+	$now    = new DateTimeImmutable( 'now', $tz );
+	$close  = DateTimeImmutable::createFromFormat( 'Y-m-d H:i:s', $closes . ' 23:59:59', $tz );
+	$open   = $close instanceof DateTimeImmutable && $now <= $close;
+
+	$roles = array(
+		array(
+			'id'       => 'devops',
+			'title'    => 'DevOps',
+			'summary'  => 'Own cloud, CI/CD, monitoring, and the rails that keep HMIS environments healthy.',
+			'focus'    => array( 'Linux / containers', 'CI/CD pipelines', 'Observability & uptime', 'Secure deployments' ),
+		),
+		array(
+			'id'       => 'software-support',
+			'title'    => 'Software Support Engineers',
+			'summary'  => 'Front-line product support for hospitals—triage, diagnose, and close the loop with engineering.',
+			'focus'    => array( 'Facility troubleshooting', 'Issue triage', 'SQL & logs', 'Customer communication' ),
+		),
+		array(
+			'id'       => 'sales-marketing',
+			'title'    => 'Sales And Marketing',
+			'summary'  => 'Grow HMIS adoption across counties and hospital groups—demos, proposals, and campaigns.',
+			'focus'    => array( 'Pipeline & demos', 'Proposal writing', 'Market outreach', 'Partner relationships' ),
+		),
+		array(
+			'id'       => 'customer-care',
+			'title'    => 'Customer Care',
+			'summary'  => 'Be the steady voice for facilities—onboarding help, follow-ups, and service excellence.',
+			'focus'    => array( 'Inbound support', 'Ticket follow-through', 'Training assistance', 'Satisfaction loops' ),
+		),
+	);
+
+	foreach ( $roles as &$role ) {
+		$role['raised_at']  = $raised;
+		$role['closes_at']  = $closes;
+		$role['is_open']    = $open;
+		$role['raised_label'] = date_i18n( 'j M Y', strtotime( $raised . ' 12:00:00' ) );
+		$role['closes_label'] = date_i18n( 'j M Y', strtotime( $closes . ' 12:00:00' ) );
+	}
+	unset( $role );
+
+	return $roles;
+}
+
+/**
+ * Whether careers applications are still open (through 30 Oct 2026 EAT).
+ */
+function integral_careers_are_open() {
+	$openings = integral_careers_openings();
+	return ! empty( $openings[0]['is_open'] );
+}
+
+/**
+ * Resolve a career role by id.
+ *
+ * @param string $id Role slug.
+ * @return array|null
+ */
+function integral_careers_role( $id ) {
+	$id = sanitize_title( (string) $id );
+	foreach ( integral_careers_openings() as $role ) {
+		if ( $role['id'] === $id ) {
+			return $role;
+		}
+	}
+	return null;
 }
 
 function integral_get_company( $slug ) {

@@ -1,13 +1,1 @@
-Traceback (most recent call last):
-  File "/home/kali/Documents/public_html/facility-fhir-proxy.py", line 391, in <module>
-    httpd = ThreadingHTTPServer(LISTEN, Handler)
-  File "/usr/lib/python3.13/socketserver.py", line 457, in __init__
-    self.server_bind()
-    ~~~~~~~~~~~~~~~~^^
-  File "/usr/lib/python3.13/http/server.py", line 140, in server_bind
-    socketserver.TCPServer.server_bind(self)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/usr/lib/python3.13/socketserver.py", line 478, in server_bind
-    self.socket.bind(self.server_address)
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-OSError: [Errno 98] Address already in use
+Facility proxy on http://0.0.0.0:18787 (FHIR + SHA portal + HIE search + FR cache)

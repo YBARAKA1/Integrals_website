@@ -1,3 +1,4 @@
 .mail.env
+.sha-hie.env
 .smtp-relay.log
 .smtp-relay.pid

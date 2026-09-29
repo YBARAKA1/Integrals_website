@@ -83,6 +83,8 @@ if ! docker ps --format '{{.Names}}' | grep -qx integral-wordpress; then
     -p 8080:80 \
     -e WORDPRESS_DB_HOST=integral-mysql:3306 \
     -e INTEGRAL_FHIR_API_URL=http://host.docker.internal:${PROXY_PORT}/fhir \
+    -e INTEGRAL_WP_HOME=http://localhost:8080 \
+    -e INTEGRAL_WP_SITEURL=http://localhost:8080 \
     -v "$ROOT:/var/www/html" \
     integral-wp74 >/dev/null
 else
@@ -90,12 +92,31 @@ else
   docker start integral-wordpress >/dev/null 2>&1 || true
 fi
 
-echo "Site: http://localhost:8080"
-echo "Login: http://localhost:8080/wp-login.php"
+# New Integral theme (rebuild) on 8081
+if ! docker ps --format '{{.Names}}' | grep -qx integral-wordpress-new; then
+  docker rm -f integral-wordpress-new >/dev/null 2>&1 || true
+  docker run -d --name integral-wordpress-new \
+    --network integral-wp \
+    --add-host=host.docker.internal:host-gateway \
+    -p 8081:80 \
+    -e WORDPRESS_DB_HOST=integral-mysql:3306 \
+    -e INTEGRAL_FHIR_API_URL=http://host.docker.internal:${PROXY_PORT}/fhir \
+    -e INTEGRAL_FORCE_THEME=integral \
+    -e INTEGRAL_WP_HOME=http://localhost:8081 \
+    -e INTEGRAL_WP_SITEURL=http://localhost:8081 \
+    -v "$ROOT:/var/www/html" \
+    integral-wp74 >/dev/null
+else
+  docker start integral-wordpress-new >/dev/null 2>&1 || true
+fi
+
+echo "New site (Integral theme): http://localhost:8081"
+echo "Legacy site (old theme):   http://localhost:8080"
+echo "Login: http://localhost:8081/wp-login.php"
 echo "Facility FHIR proxy: http://127.0.0.1:${PROXY_PORT}/fhir"
 if [[ -f "$ROOT/.mail.env" ]] && grep -q '^INTEGRAL_SMTP_UPSTREAM_HOST=mail.integral.co.ke' "$ROOT/.mail.env" 2>/dev/null; then
   echo "Mail: relay :${SMTP_RELAY_PORT} → mail.integral.co.ke (see .smtp-relay.log)"
 else
   echo "Mail UI (Mailhog): http://127.0.0.1:8025"
 fi
-echo "(Stop with: docker stop integral-wordpress)"
+echo "(Stop with: docker stop integral-wordpress integral-wordpress-new)"

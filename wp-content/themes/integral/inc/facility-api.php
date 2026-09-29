@@ -31,28 +31,149 @@ function integral_facility_lookup() {
 
 	$code = trim( $code );
 	if ( $code === '' ) {
-		wp_send_json_error( array( 'message' => 'Enter an FR code (FID-…) or CoC / KMPDC registration number.' ), 400 );
+		wp_send_json_error( array( 'message' => 'Enter a facility identifier to search.' ), 400 );
 	}
 
-	if ( strlen( $code ) < 4 ) {
-		wp_send_json_error( array( 'message' => 'Enter at least 4 characters (same as the SHA portal).' ), 400 );
+	if ( strlen( $code ) < 3 ) {
+		wp_send_json_error( array( 'message' => 'Enter at least 3 characters.' ), 400 );
 	}
 
-	// Name search is not offered — only FR code or CoC / KMPDC registration.
+	// Name search is not offered — only FR code, FID, or registration.
 	if ( $type === 'name' ) {
 		$type = 'auto';
 	}
 
+	$tried = array();
+	$result = null;
+
 	if ( $type === '' || $type === 'auto' ) {
-		$type = integral_detect_facility_id_type( $code );
+		// Same options as HMIS Identifier Type select — try each until one hits.
+		foreach ( integral_auto_facility_search_attempts( $code ) as $attempt ) {
+			$tried[] = $attempt['type'] . ':' . $attempt['code'];
+			$hit     = integral_fetch_facility( $attempt['code'], $attempt['type'] );
+			if ( ! is_wp_error( $hit ) && is_array( $hit ) && ! empty( $hit['name'] ) ) {
+				$result              = $hit;
+				$result['matchedType'] = $attempt['type'];
+				$result['matchedCode'] = $attempt['code'];
+				break;
+			}
+		}
+	} else {
+		$lookup_code = integral_normalize_code_for_type( $code, $type );
+		$tried[]     = $type . ':' . $lookup_code;
+		$hit         = integral_fetch_facility( $lookup_code, $type );
+		if ( ! is_wp_error( $hit ) && is_array( $hit ) && ! empty( $hit['name'] ) ) {
+			$result                = $hit;
+			$result['matchedType'] = $type;
+			$result['matchedCode'] = $lookup_code;
+		}
 	}
 
-	$result = integral_fetch_facility( $code, $type );
-	if ( is_wp_error( $result ) ) {
-		wp_send_json_error( array( 'message' => $result->get_error_message() ), 404 );
+	if ( ! $result ) {
+		wp_send_json_error(
+			array(
+				'message' => 'No facility found for that identifier. Tried: ' . implode( ', ', $tried ),
+				'tried'   => $tried,
+			),
+			404
+		);
 	}
 
+	$result['registryText'] = integral_facility_registry_text( $result );
 	wp_send_json_success( $result );
+}
+
+/**
+ * Auto-detect: try every HMIS identifier-type option (and sensible variants).
+ * Order mirrors Institution → Facility Registry Search select.
+ *
+ * @return array<int, array{type:string,code:string}>
+ */
+function integral_auto_facility_search_attempts( $code ) {
+	$code = trim( $code );
+	$seen = array();
+	$out  = array();
+
+	$push = function ( $type, $value ) use ( &$seen, &$out ) {
+		$value = trim( (string) $value );
+		if ( $value === '' ) {
+			return;
+		}
+		$key = $type . '|' . strtoupper( $value );
+		if ( isset( $seen[ $key ] ) ) {
+			return;
+		}
+		$seen[ $key ] = true;
+		$out[]        = array(
+			'type' => $type,
+			'code' => $value,
+		);
+	};
+
+	// 1) FR Code — full string (and uppercase FID- form).
+	$push( 'fr-code', $code );
+	if ( preg_match( '/^FID[-_]/i', $code ) ) {
+		$push( 'fr-code', strtoupper( $code ) );
+	}
+
+	// 2) FID — raw value, or middle segment of FID-xx-yyyy-z.
+	$push( 'fid', integral_normalize_code_for_type( $code, 'fid' ) );
+	if ( preg_match( '/^FID[-_]\d+[-_](\d+)[-_]\d+$/i', $code, $m ) ) {
+		$push( 'fid', $m[1] );
+	}
+
+	// 3) Registration Number.
+	$push( 'registration-number', $code );
+	if ( preg_match( '/^FID[-_]\d+[-_](\d+)[-_]\d+$/i', $code, $m ) ) {
+		$push( 'registration-number', $m[1] );
+	}
+
+	return $out;
+}
+
+function integral_normalize_code_for_type( $code, $type ) {
+	$code = trim( $code );
+	if ( $type === 'fid' && preg_match( '/^FID[-_]\d+[-_](\d+)[-_]\d+$/i', $code, $m ) ) {
+		return $m[1];
+	}
+	if ( $type === 'fr-code' && preg_match( '/^FID[-_]/i', $code ) ) {
+		return strtoupper( $code );
+	}
+	return $code;
+}
+
+/**
+ * Terminal-style block matching HMIS #shaDataOrganization output.
+ */
+function integral_facility_registry_text( $data ) {
+	if ( ! is_array( $data ) ) {
+		return '';
+	}
+	$lines = array(
+		'FR CODE: ' . ( isset( $data['frCode'] ) ? $data['frCode'] : '' ),
+		'FID CODE: ' . ( isset( $data['fidCode'] ) ? $data['fidCode'] : '' ),
+		'FACILITY NAME: ' . ( isset( $data['name'] ) ? $data['name'] : '' ),
+		'FACILITY TYPE: ' . ( isset( $data['facilityType'] ) ? $data['facilityType'] : '' ),
+		'OWNERSHIP: ' . ( isset( $data['ownership'] ) ? $data['ownership'] : '' ),
+		'REGULATOR: ' . ( isset( $data['regulator'] ) ? $data['regulator'] : '' ),
+		'REGISTRATION NO: ' . ( isset( $data['registrationNumber'] ) ? $data['registrationNumber'] : '' ),
+		'LICENSE NO: ' . ( isset( $data['licenseNumber'] ) ? $data['licenseNumber'] : '' ),
+		'LICENSE STATUS: ' . ( isset( $data['licenseStatus'] ) ? $data['licenseStatus'] : '' ),
+		'LICENSE END: ' . ( isset( $data['licenseEnd'] ) ? $data['licenseEnd'] : '' ),
+		'LEVEL: ' . ( isset( $data['level'] ) ? $data['level'] : '' ),
+		'COUNTY: ' . ( isset( $data['county'] ) ? $data['county'] : '' ),
+		'SUB COUNTY: ' . ( isset( $data['subCounty'] ) ? $data['subCounty'] : '' ),
+		'TOWN: ' . ( isset( $data['town'] ) ? $data['town'] : '' ),
+		'PHONE: ' . ( isset( $data['phone'] ) ? $data['phone'] : '' ),
+		'EMAIL: ' . ( isset( $data['email'] ) ? $data['email'] : '' ),
+		'ADMIN: ' . ( isset( $data['admin'] ) ? $data['admin'] : '' ),
+		'BEDS: ' . ( isset( $data['totalBeds'] ) ? $data['totalBeds'] : '' ),
+		'SHA STATUS: ' . ( isset( $data['shaStatus'] ) ? $data['shaStatus'] : '' ),
+		'SOURCE: ' . ( isset( $data['source'] ) ? $data['source'] : '' ),
+		'MATCHED TYPE: ' . ( isset( $data['matchedType'] ) ? $data['matchedType'] : '' ),
+		'-------------------------------',
+	);
+	return implode( "\n", $lines );
 }
 
 function integral_detect_facility_id_type( $code ) {
