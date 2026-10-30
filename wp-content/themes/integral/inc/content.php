@@ -173,9 +173,23 @@ function integral_services() {
 			'intro' => 'Extend reach around your clinical platform.',
 			'items' => array(
 				array( 'title' => 'Digital Marketing', 'slug' => 'digital-marketing', 'blurb' => 'Growth systems for health brands and networks.' ),
-				array( 'title' => 'Integrations', 'slug' => 'wallet-integration', 'blurb' => 'Payments, claims rails, and national schemes.' ),
+				array( 'title' => 'Integrations', 'slug' => 'wallet-integration', 'blurb' => 'SHA / HIE partner APIs, payments, claims rails—and a live sandbox on zone8.' ),
 			),
 		),
+	);
+}
+
+/**
+ * Live partner sandbox on the Integral demo HMIS (zone8).
+ * Partners request access, get credentials, then call SHA/HIE only through Integral.
+ */
+function integral_partner_sandbox() {
+	$base = 'https://zone8.integralsoftware.co.ke:3930';
+	return array(
+		'base'    => $base,
+		'request' => $base . '/partner-request',
+		'sandbox' => $base . '/partner-sandbox',
+		'label'   => 'Online demo · zone8',
 	);
 }
 

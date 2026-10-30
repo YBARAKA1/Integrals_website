@@ -4637,3 +4637,66 @@ html.int-theme-light .int-career-card__dates strong.is-closed,
 html.int-theme-light .int-career-form__alert.is-error {
   color: #b91c1c;
 }
+
+
+/* ---------- Partner sandbox CTA (Grow → Integrations / HMIS) ---------- */
+.int-sandbox-host {
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-soft-on);
+  opacity: 0.9;
+}
+
+.int-sandbox-cta {
+  margin-top: 2rem;
+  padding: 1.35rem 1.4rem;
+  border-radius: 14px;
+  border: 1px solid var(--line-on);
+  background:
+    linear-gradient(135deg, rgba(140, 0, 140, 0.12), transparent 55%),
+    var(--surface-elevated);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (min-width: 800px) {
+  .int-sandbox-cta {
+    grid-template-columns: 1.4fr auto;
+    gap: 1.25rem;
+  }
+}
+
+.int-sandbox-cta h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.15rem;
+  color: var(--ink-on);
+}
+
+.int-sandbox-cta p {
+  margin: 0;
+  color: var(--text-soft-on);
+  font-size: 0.92rem;
+}
+
+.int-sandbox-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.int-sandbox-cta--compact {
+  margin-top: 1.5rem;
+}
+
+.int-blocks.cols-3 {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .int-blocks.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

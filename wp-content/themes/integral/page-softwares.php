@@ -45,10 +45,11 @@ $integrations = integral_hmis_integrations();
 
 <section class="int-section int-section--slash" id="integrations">
 	<div class="int-container">
+		<?php $sandbox = integral_partner_sandbox(); ?>
 		<div class="int-section__head int-reveal">
 			<div class="int-eyebrow">Integrations</div>
 			<h2>National schemes. Payments. Labs. AI.</h2>
-			<p>Built for Kenya and Malawi operating reality—not bolted-on afterthoughts.</p>
+			<p>Built for Kenya and Malawi operating reality—not bolted-on afterthoughts. External partners can request sandbox access and call SHA / HIE through Integral on our live demo.</p>
 		</div>
 		<div class="int-integ-board int-integ-board--wide int-reveal">
 			<?php foreach ( $integrations as $item ) : ?>
@@ -57,6 +58,17 @@ $integrations = integral_hmis_integrations();
 					<span><?php echo esc_html( $item['hint'] ); ?></span>
 				</div>
 			<?php endforeach; ?>
+		</div>
+		<div class="int-sandbox-cta int-sandbox-cta--compact int-reveal">
+			<div>
+				<h3>Partner sandbox (zone8)</h3>
+				<p>Request credentials, then test Facility / Health Worker / Client Registry APIs on the online demo.</p>
+			</div>
+			<div class="int-sandbox-cta__actions">
+				<a class="int-btn int-btn--primary" href="<?php echo esc_url( $sandbox['request'] ); ?>" target="_blank" rel="noopener noreferrer">Request access</a>
+				<a class="int-btn int-btn--ghost" href="<?php echo esc_url( $sandbox['sandbox'] ); ?>" target="_blank" rel="noopener noreferrer">Open sandbox</a>
+				<a class="int-btn int-btn--ghost" href="<?php echo esc_url( home_url( '/wallet-integration/' ) ); ?>">Integrations overview</a>
+			</div>
 		</div>
 	</div>
 </section>

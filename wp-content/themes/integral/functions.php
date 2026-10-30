@@ -86,6 +86,17 @@ add_filter( 'template_include', function ( $template ) {
 		return file_exists( $custom ) ? $custom : $template;
 	}
 
+	if ( is_page() || is_single() ) {
+		$slug = get_post_field( 'post_name', get_queried_object_id() );
+		// Grow → Integrations (slug historically wallet-integration).
+		if ( 'wallet-integration' === $slug || 'integrations' === $slug ) {
+			$custom = INTEGRAL_DIR . '/page-integrations.php';
+			if ( file_exists( $custom ) ) {
+				return $custom;
+			}
+		}
+	}
+
 	if ( is_page() ) {
 		$slug = get_post_field( 'post_name', get_queried_object_id() );
 		$map  = array(
@@ -103,6 +114,8 @@ add_filter( 'template_include', function ( $template ) {
 			'our-partners'              => 'page-company.php',
 			'certifications'            => 'page-certifications.php',
 			'careers'                   => 'page-careers.php',
+			'wallet-integration'        => 'page-integrations.php',
+			'integrations'              => 'page-integrations.php',
 		);
 		if ( isset( $map[ $slug ] ) ) {
 			$custom = INTEGRAL_DIR . '/' . $map[ $slug ];
