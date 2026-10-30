@@ -62,11 +62,10 @@ $integrations = integral_hmis_integrations();
 		<div class="int-sandbox-cta int-sandbox-cta--compact int-reveal">
 			<div>
 				<h3>Partner sandbox (zone8)</h3>
-				<p>Request credentials, then test Facility / Health Worker / Client Registry APIs on the online demo.</p>
+				<p>Request access. After approval you get credentials and a private invite link by email — the sandbox is not publicly open.</p>
 			</div>
 			<div class="int-sandbox-cta__actions">
 				<a class="int-btn int-btn--primary" href="<?php echo esc_url( $sandbox['request'] ); ?>" target="_blank" rel="noopener noreferrer">Request access</a>
-				<a class="int-btn int-btn--ghost" href="<?php echo esc_url( $sandbox['sandbox'] ); ?>" target="_blank" rel="noopener noreferrer">Open sandbox</a>
 				<a class="int-btn int-btn--ghost" href="<?php echo esc_url( home_url( '/wallet-integration/' ) ); ?>">Integrations overview</a>
 			</div>
 		</div>

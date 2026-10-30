@@ -20,11 +20,8 @@ $integrations = integral_hmis_integrations();
 			<a class="int-btn int-btn--primary" href="<?php echo esc_url( $sandbox['request'] ); ?>" target="_blank" rel="noopener noreferrer">
 				Request sandbox access
 			</a>
-			<a class="int-btn int-btn--ghost" href="<?php echo esc_url( $sandbox['sandbox'] ); ?>" target="_blank" rel="noopener noreferrer">
-				Open partner sandbox
-			</a>
 		</div>
-		<p class="int-sandbox-host"><?php echo esc_html( $sandbox['label'] ); ?> · <?php echo esc_html( $sandbox['base'] ); ?></p>
+		<p class="int-sandbox-host">Invite-only after approval — no public sandbox link on this site</p>
 	</div>
 </section>
 
@@ -48,18 +45,17 @@ $integrations = integral_hmis_integrations();
 				<p>After approval you get <code>client_id</code> / <code>client_secret</code> by email (secret once).</p>
 			</div>
 			<div class="int-block">
-				<h3>3. Test on zone8</h3>
-				<p>Open the sandbox UI, generate a token, and exercise <code>/api/v1/dev/…</code> against the live demo.</p>
+				<h3>3. Use your private invite</h3>
+				<p>Open the invite link from your email (not a public URL), then generate a token and call <code>/api/v1/dev/…</code>.</p>
 			</div>
 		</div>
 		<div class="int-sandbox-cta int-reveal">
 			<div>
 				<h3>Ready to integrate?</h3>
-				<p>Use the online demo server. Authorized partners only—access is gated by approval.</p>
+				<p>Submit a request. If approved, Integral emails you credentials and a <strong>private sandbox invite link</strong>. The sandbox URL alone stays locked.</p>
 			</div>
 			<div class="int-sandbox-cta__actions">
 				<a class="int-btn int-btn--primary" href="<?php echo esc_url( $sandbox['request'] ); ?>" target="_blank" rel="noopener noreferrer">Request access</a>
-				<a class="int-btn int-btn--ghost" href="<?php echo esc_url( $sandbox['sandbox'] ); ?>" target="_blank" rel="noopener noreferrer">Open sandbox</a>
 			</div>
 		</div>
 	</div>
